@@ -6,6 +6,11 @@ The app is a calculator and a record, not a payment system. Counting the tips, g
 
 ## Prerequisites
 
+ESLint requires:
+
+- Node >= 22.13.0
+- TypeSCript >= 5.3
+
 This project uses Node v26.6.0.
 
 ## Setup
@@ -18,7 +23,7 @@ npm ci
 
 ```bash
 npm test # Run the test suite
-npm run typecheck # check for type errors 
+npm run typecheck # check for type errors
 ```
 
 ### Note on ts-jest
