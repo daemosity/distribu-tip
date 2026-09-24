@@ -4,6 +4,10 @@
 
 The app is a calculator and a record, not a payment system. Counting the tips, getting change from the bank, and handing out envelopes all happen outside it.
 
+## Prerequisites
+
+This project uses Node v26.6.0.
+
 ## Setup
 
 ```bash
