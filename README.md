@@ -21,13 +21,13 @@ npm run typecheck # check for type errors
 
 This repo was started with `ts-jest` - with it, we GAIN direct access to the TypeScript compiler, allowing the library to read the tsconfig and report type errors in tests, tightening the testing cycle. In comparison, `babel-jest` allows Jest to run against `.ts` files, but it strips the types without checking them.
 
-The trade-off in choosing `ts-jest` is that it runs slower than `babel-jest`, and it is also currently locked to TypeScript 6, which means it doesn't have access to TypeScript 7's improvements.
+The trade-off in choosing `ts-jest` is that it runs slower than `babel-jest`, and it is also currently locked to TypeScript 6 (see [ts-jest section](#ts-jests-unique-dependency-configuration)), which means it doesn't have access to TypeScript 7's improvements.
 
 Note: As this application will eventually use `Expo`, `ts-jest` will need to be swapped out for `jest-expo`, which runs on Babel - and losing the paired "test-and-typecheck" benefits. However, in the early stages of this project, when we're working on pure domain logic, using `ts-jest` seems worth the later migration.
 
 #### ts-jest's unique dependency configuration
 
-This package has two TypeScript versions installed side by side, a necessity for running ts-jest v29 alongside TypeScript 7;
+This package has two TypeScript versions installed side by side, a necessity for running ts-jest v29 alongside TypeScript 7.
 
 [From ts-jest's documentation](https://kulshekhar.github.io/ts-jest/docs/next/guides/typescript-7):
 
