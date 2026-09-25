@@ -8,12 +8,8 @@ The app is a calculator and a record, not a payment system. Counting the tips, g
 
 ## Prerequisites
 
-ESLint requires:
-
 - Node >= 22.13.0
-- TypeSCript >= 5.3
-
-This project uses Node v26.6.0.
+- TypeScript >= 5.3
 
 ## Setup
 
