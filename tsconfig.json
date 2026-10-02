@@ -1,6 +1,10 @@
 {
     // Visit https://aka.ms/tsconfig to read more about this file
     "compilerOptions": {
+        "baseUrl": "./",
+        "paths": {
+            "@/*": ["src/*"],
+        },
         "target": "es2022",
         "module": "esnext",
         "moduleResolution": "bundler",
@@ -10,7 +14,7 @@
         "strict": true,
         // Stricter Typechecking Options
         "noUncheckedIndexedAccess": true,
-        "noEmit": true
+        "noEmit": true,
     },
     "include": ["src/**/*", "__tests__/smoke.test.ts"]
 }
