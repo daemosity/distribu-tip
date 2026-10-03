@@ -9,7 +9,7 @@ The app is a calculator and a record, not a payment system. Counting the tips, g
 ## Prerequisites
 
 - Node: 26
-  - see ./.nvmrc for confirmation
+    - see ./.nvmrc for confirmation
 
 ## Setup
 
