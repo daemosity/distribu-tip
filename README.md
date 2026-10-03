@@ -24,6 +24,10 @@ npm test # Run the test suite
 npm run typecheck # check for type errors
 ```
 
+**Note:** Tests currently only pass with `npm test`
+
+- `npx jest` fails because loading `eslint.config.mts` needs `NODE_OPTIONS=--experimental-vm-modules`.
+
 ### Note on ts-jest
 
 This repo was started with `ts-jest` - with it, we GAIN direct access to the TypeScript compiler, allowing the library to read the tsconfig and report type errors in tests, tightening the testing cycle. In comparison, `babel-jest` allows Jest to run against `.ts` files, but it strips the types without checking them.
