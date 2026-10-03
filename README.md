@@ -8,8 +8,8 @@ The app is a calculator and a record, not a payment system. Counting the tips, g
 
 ## Prerequisites
 
-- Node >= 22.13.0
-- TypeScript >= 5.3
+- Node: 26
+  - see ./.nvmrc for confirmation
 
 ## Setup
 
