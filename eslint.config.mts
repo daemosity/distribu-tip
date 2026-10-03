@@ -37,7 +37,7 @@ export default defineConfig([
                     checkAllOrigins: true,
                     checkUnknownLocals: true,
                     message:
-                        "'{{from.element.path}}' must stay pure so money math is testable in milliseconds. Pass data in as plain objects instead. Violating imports: {{to.module.source}}",
+                        "'{{from.element.path}}' must stay pure so money math is testable in milliseconds. Pass data in as plain objects instead. Violating imports: '{{dependency.source}}'",
                     policies: [
                         {
                             from: { element: { type: "coreFiles" } },
