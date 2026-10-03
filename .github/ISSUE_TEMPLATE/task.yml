@@ -3,71 +3,71 @@ description: Add a project issue.
 title: "M"
 projects: ["daemosity/6"]
 body:
-  - type: textarea
-    attributes:
-      label: Why
-      description: A description of why this issue is important
-    validations:
-      required: true
-  - type: textarea
-    attributes:
-      label: New tools
-      description: "Any new tools this issue introduces, and for each tool, additional information that follows the template format. Include foundations already in use; give them a 5-minute self-check first."
-      value: |
-        New Tool Name:
-          Self-check (5 min, foundations only):
-          What it is and why it's here:
-          Mental model:
-          Learn it, in order:
-          How professionals use it:
-          Practice first:
-          Pitfalls:
-          Alternatives considered:
-    validations:
-      required: false
-  - type: textarea
-    attributes:
-      label: Deliverables
-      description: Enter a checklist of all deliverables associated with this issue
-      value: |
-        - [ ] deliverable 1
-    validations:
-      required: true
-  - type: textarea
-    attributes:
-      label: Acceptance criteria
-      description: A checklist of must occur before the PR is accepted
-      value: |
-        - [ ] Acceptance criteria 1
-    validations:
-      required: true
-  - type: textarea
-    attributes:
-      label: Skill focus
-      description: A description of what skills the developer should focus on during this issue and why
-    validations:
-      required: true
-  - type: textarea
-    attributes:
-      label: Walkthrough
-      description: Recommend a list of steps and advice regarding how this issue should be completed
-    validations:
-      required: false
-  - type: textarea
-    attributes:
-      label: Learn
-      description: A list of links to reinforce learning about tools and/or skills used in this issue
-    validations:
-      required: true
-  - type: textarea
-    attributes:
-      label: Production examples (where useful)
-      description: a list comprising two or more working links to high quality examples of the deliverables asked for by this issue as they appear within industry repos and/or documentation
-    validations:
-      required: false
-  - type: textarea
-    attributes:
-      label: Your turn
-      description: An additional assignment for the developer to complete to help reinforce the new things they've encountered within this issue
-    validations:
-      required: false
+    - type: textarea
+      attributes:
+          label: Why
+          description: A description of why this issue is important
+      validations:
+          required: true
+    - type: textarea
+      attributes:
+          label: New tools
+          description: "Any new tools this issue introduces, and for each tool, additional information that follows the template format. Include foundations already in use; give them a 5-minute self-check first."
+          value: |
+              New Tool Name:
+                Self-check (5 min, foundations only):
+                What it is and why it's here:
+                Mental model:
+                Learn it, in order:
+                How professionals use it:
+                Practice first:
+                Pitfalls:
+                Alternatives considered:
+      validations:
+          required: false
+    - type: textarea
+      attributes:
+          label: Deliverables
+          description: Enter a checklist of all deliverables associated with this issue
+          value: |
+              - [ ] deliverable 1
+      validations:
+          required: true
+    - type: textarea
+      attributes:
+          label: Acceptance criteria
+          description: A checklist of must occur before the PR is accepted
+          value: |
+              - [ ] Acceptance criteria 1
+      validations:
+          required: true
+    - type: textarea
+      attributes:
+          label: Skill focus
+          description: A description of what skills the developer should focus on during this issue and why
+      validations:
+          required: true
+    - type: textarea
+      attributes:
+          label: Walkthrough
+          description: Recommend a list of steps and advice regarding how this issue should be completed
+      validations:
+          required: false
+    - type: textarea
+      attributes:
+          label: Learn
+          description: A list of links to reinforce learning about tools and/or skills used in this issue
+      validations:
+          required: true
+    - type: textarea
+      attributes:
+          label: Production examples (where useful)
+          description: a list comprising two or more working links to high quality examples of the deliverables asked for by this issue as they appear within industry repos and/or documentation
+      validations:
+          required: false
+    - type: textarea
+      attributes:
+          label: Your turn
+          description: An additional assignment for the developer to complete to help reinforce the new things they've encountered within this issue
+      validations:
+          required: false
