@@ -1,6 +1,7 @@
 ## Summary of Changes
 
 Closes #
+
 ## Why the Changes Occurred
 
 ## How this was verified

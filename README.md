@@ -1,8 +1,15 @@
 # Distribu-tip
 
+![Continuous Integration Workflow Status Badge](https://github.com/daemosity/distribu-tip/actions/workflows/ci.yml/badge.svg)
+
 **Distribu-tip** splits a weekly cash tip pool across the employees who worked that week, proportionally to hours, and reports how many $20, $10, $5 and $1 bills are needed to pay everyone with the fewest bills per person.
 
 The app is a calculator and a record, not a payment system. Counting the tips, getting change from the bank, and handing out envelopes all happen outside it.
+
+## Prerequisites
+
+- Node: 26
+    - see ./.nvmrc for confirmation
 
 ## Setup
 
@@ -14,8 +21,12 @@ npm ci
 
 ```bash
 npm test # Run the test suite
-npm run typecheck # check for type errors 
+npm run typecheck # check for type errors
 ```
+
+**Note:** Tests currently only pass with `npm test`
+
+- `npx jest` fails because loading `eslint.config.mts` needs `NODE_OPTIONS=--experimental-vm-modules`.
 
 ### Note on ts-jest
 

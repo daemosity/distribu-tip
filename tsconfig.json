@@ -1,15 +1,20 @@
 {
-  // Visit https://aka.ms/tsconfig to read more about this file
-  "compilerOptions": {
-    "target": "es2022",
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "types": ["node"],
-    "esModuleInterop": true,
-    "strict": true,
-    // Stricter Typechecking Options
-    "noUncheckedIndexedAccess": true,
-    "noEmit": true
-  },
-  "include": ["src"]
+    // Visit https://aka.ms/tsconfig to read more about this file
+    "compilerOptions": {
+        "paths": {
+            "*": ["./*"],
+            "@/*": ["./src/*"]
+        },
+        "target": "es2022",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": ["ES2022"],
+        "types": ["node", "jest"],
+        "esModuleInterop": true,
+        "strict": true,
+        // Stricter Typechecking Options
+        "noUncheckedIndexedAccess": true,
+        "noEmit": true
+    },
+    "include": ["src/**/*", "__tests__/smoke.test.ts"]
 }
