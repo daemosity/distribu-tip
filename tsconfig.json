@@ -15,7 +15,12 @@
         // Stricter Typechecking Options
         "noUncheckedIndexedAccess": true,
         "noImplicitOverride": true,
-        "noEmit": true,
+        "noEmit": true
     },
-    "include": ["src/**/*", "__tests__/smoke.test.ts"]
+    "include": [
+        "src/**/*",
+        "__tests__/**/*",
+        "eslint.config.mts",
+        "jest.config.mjs"
+    ]
 }
