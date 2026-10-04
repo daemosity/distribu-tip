@@ -20,7 +20,6 @@
         "skipLibCheck": true,
         "allowJs": true,
         "resolveJsonModule": true,
-        "verbatimModuleSyntax": true,
     },
     "include": ["src/**/*", "__tests__/smoke.test.ts", "tsconfig.core.json"]
 }
