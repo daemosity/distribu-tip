@@ -14,7 +14,13 @@
         "strict": true,
         // Stricter Typechecking Options
         "noUncheckedIndexedAccess": true,
-        "noEmit": true
+        "noImplicitAny":true,
+        "noImplicitOverride": true,
+        "noEmit": true,
+        "skipLibCheck": true,
+        "allowJs": true,
+        "resolveJsonModule": true,
+        "verbatimModuleSyntax": true,
     },
-    "include": ["src/**/*", "__tests__/smoke.test.ts"]
+    "include": ["src/**/*", "__tests__/smoke.test.ts", "tsconfig.core.json"]
 }
