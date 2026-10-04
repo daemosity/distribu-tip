@@ -2,7 +2,34 @@ import js from "@eslint/js";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 import { defineConfig } from "eslint/config";
-import boundaries, { Config } from "eslint-plugin-boundaries";
+import type { Config, Rules, Settings } from "eslint-plugin-boundaries/config";
+import { createConfig, recommended } from "eslint-plugin-boundaries/config";
+
+const boundariesConfig = createConfig({
+    settings: {
+        ...recommended.settings,
+        "boundaries/elements": [{ type: "coreFiles", pattern: "src/core" }],
+    } satisfies Settings,
+    rules: {
+        ...recommended.rules,
+        "boundaries/dependencies": [
+            "error",
+            {
+                default: "disallow",
+                checkAllOrigins: true,
+                checkUnknownLocals: true,
+                message:
+                    "'{{from.element.path}}' must stay pure so money math is testable in milliseconds. Pass data in as plain objects instead. Violating imports: '{{dependency.source}}'",
+                policies: [
+                    {
+                        from: { element: { type: "coreFiles" } },
+                        allow: { to: { element: { type: "coreFiles" } } },
+                    },
+                ],
+            },
+        ],
+    } satisfies Rules,
+} satisfies Config);
 
 export default defineConfig([
     {
@@ -16,36 +43,16 @@ export default defineConfig([
     },
     {
         basePath: "src/core",
-        plugins: {
-            boundaries,
-        },
+        extends: [boundariesConfig],
         settings: {
             "import/resolver": {
                 typescript: {
                     alwaysTryTypes: true,
                 },
             },
-            "boundaries/elements": [{ type: "coreFiles", pattern: "src/core" }],
         },
         rules: {
             "no-undef": "error",
-            ...boundaries.configs.recommended.rules,
-            "boundaries/dependencies": [
-                "error",
-                {
-                    default: "disallow",
-                    checkAllOrigins: true,
-                    checkUnknownLocals: true,
-                    message:
-                        "'{{from.element.path}}' must stay pure so money math is testable in milliseconds. Pass data in as plain objects instead. Violating imports: '{{dependency.source}}'",
-                    policies: [
-                        {
-                            from: { element: { type: "coreFiles" } },
-                            allow: { to: { element: { type: "coreFiles" } } },
-                        },
-                    ],
-                },
-            ],
         },
-    } satisfies Config,
+    },
 ]);
