@@ -8,7 +8,7 @@
     "type": "commonjs",
     "scripts": {
         "test": "NODE_OPTIONS=--experimental-vm-modules jest",
-        "typecheck": "tsc --noEmit",
+        "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.core.json --noEmit",
         "lint": "eslint .",
         "format:check": "prettier . --check"
     },
