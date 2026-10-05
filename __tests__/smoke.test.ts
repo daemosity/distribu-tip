@@ -6,4 +6,4 @@ test("Smoketest", () => {
 
 test("deliberately failing test", () => {
     expect(1).toBe(2);
-})
+});
