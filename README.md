@@ -13,7 +13,7 @@ The app is a calculator and a record, not a payment system. Counting the tips, g
 
 ## Setup
 
-To install the library versions we're working with, as well as `husky` + `lint-staged` pre-commit hooks:
+To install the library versions we're working with, as well as `husky` + `lint-staged` pre-commit hooks, which will lint and format files before they are captured in a commit:
 
 ```bash
 npm ci
