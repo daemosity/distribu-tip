@@ -12,7 +12,7 @@
         "lint": "eslint .",
         "format:fix": "prettier . --write",
         "format:check": "prettier . --check",
-        "prepare": "husky"
+        "prepare": "husky || true"
     },
     "devDependencies": {
         "@eslint/js": "^10.0.1",
@@ -26,9 +26,15 @@
         "husky": "^9.1.7",
         "jest": "^30.5.2",
         "jiti": "^2.7.0",
+        "lint-staged": "^16.4.0",
         "prettier": "3.9.9",
         "ts-jest": "^29.4.13",
         "typescript": "npm:@typescript/typescript6@^6.0.2",
         "typescript-eslint": "^8.70.1"
+    },
+    "lint-staged": {
+        "*": [
+            "npm run format:fix"
+        ]
     }
 }
