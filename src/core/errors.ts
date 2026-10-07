@@ -23,3 +23,15 @@ export class NegativeNumberError extends CoreError {
         super("NEGATIVE_NUMBER", msg);
     }
 }
+
+export class NonIntegerInputError extends CoreError {
+    constructor(msg?: string) {
+        super("NONINTEGER INPUT", msg);
+    }
+}
+
+export class CapExceededError extends CoreError {
+    constructor(msg?: string) {
+        super("CAP_EXCEEDED", msg);
+    }
+}
