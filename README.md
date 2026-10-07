@@ -2,6 +2,8 @@
 
 ![Continuous Integration Workflow Status Badge](https://github.com/daemosity/distribu-tip/actions/workflows/ci.yml/badge.svg)
 
+DISCLOSURE: This app is not legally viable as specified. See [Architectural Decisions](#architectural-decisions).
+
 **Distribu-tip** splits a weekly cash tip pool across the employees who worked that week, proportionally to hours, and reports how many $20, $10, $5 and $1 bills are needed to pay everyone with the fewest bills per person.
 
 The app is a calculator and a record, not a payment system. Counting the tips, getting change from the bank, and handing out envelopes all happen outside it.
@@ -57,3 +59,11 @@ Using this set-up, they say:
 > - `npx tsc` runs the native TypeScript 7 compiler for project type-checking and builds.
 > - `npx tsc6` runs the TypeScript 6 compatibility compiler when you need to compare results.
 > - `ts-jest` imports `typescript`, so it receives the supported TypeScript 6 JavaScript API.
+
+## Architectural Decisions
+
+Disclaimer:
+
+The rules that currently govern how tips are distributed appear to conflict with Illinois law. This repo seeks to make sure they are isolated behind a single function so that a fix is contained. See [ADR-001](docs/adr/001-allocation-rule-behind-one-function.md#context).
+
+For decisions that helped shape this repo, see [`docs/adr/README.md`](docs/adr/README.md)
