@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted, 2026-10-0X (on merge). Originally decided 2026-09-26 in design doc rev 0.5.
+Accepted, 2026-10-06 (on merge). Originally decided 2026-09-26 in design doc rev 0.5.
 
 ## Context
 
