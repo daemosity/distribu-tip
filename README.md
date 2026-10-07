@@ -57,3 +57,7 @@ Using this set-up, they say:
 > - `npx tsc` runs the native TypeScript 7 compiler for project type-checking and builds.
 > - `npx tsc6` runs the TypeScript 6 compatibility compiler when you need to compare results.
 > - `ts-jest` imports `typescript`, so it receives the supported TypeScript 6 JavaScript API.
+
+## Architectural Decisions
+
+For decisions that helped shape this repo, see [`docs/adr/README.md`](docs/adr/README.md)
