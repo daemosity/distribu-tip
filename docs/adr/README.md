@@ -29,4 +29,4 @@ Smaller choices belong in a pull request description or a code comment. Changes 
 
 | ADR                                               | Title                                        | Status   | Date       |
 | ------------------------------------------------- | -------------------------------------------- | -------- | ---------- |
-| [001](001-allocation-rule-behind-one-function.md) | The allocation rule sits behind one function | Accepted | 2026-10-07 |
+| [001](001-allocation-rule-behind-one-function.md) | The allocation rule sits behind one function | Accepted | 2026-10-06 |
