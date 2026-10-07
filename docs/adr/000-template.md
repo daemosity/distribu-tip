@@ -35,7 +35,7 @@ Cite sources (design doc section and revision, issue, spec) so a reader can chec
 ## Decision
 
 <!--
-The response to those forces, in active voice: "We will ...". Specific enough that a reviewer could point at a pull request and say whether it follows this decision or not.
+The response to those forces, in active voice: "I will ...". Specific enough that a reviewer could point at a pull request and say whether it follows this decision or not.
 -->
 
 ## Consequences
