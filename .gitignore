@@ -4,5 +4,5 @@ build
 coverage
 dist
 
-*CLAUDE*
-.claude
+CLAUDE.local.md
+.claude/
