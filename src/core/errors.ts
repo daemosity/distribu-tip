@@ -3,7 +3,7 @@ type CoreErrorType =
     | "NO_WORKERS"
     | "INVARIANT_FAILED"
     | "NEGATIVE_NUMBER"
-    | "NONINTEGER INPUT";
+    | "NONINTEGER_INPUT";
 
 class CoreError extends Error {
     #code: CoreErrorType;
@@ -26,7 +26,7 @@ export class NegativeNumberError extends CoreError {
 
 export class NonIntegerInputError extends CoreError {
     constructor(msg?: string) {
-        super("NONINTEGER INPUT", msg);
+        super("NONINTEGER_INPUT", msg);
     }
 }
 
