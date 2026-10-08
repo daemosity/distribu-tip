@@ -1,8 +1,8 @@
 import {
     CENTS_INT_CAP,
     HOURS_CENTI_INT_CAP,
-    WEIGHT_BP_BOTTOM_INT,
-    WEIGHT_BP_TOP_INT,
+    WEIGHT_BP_INT_BOTTOM,
+    WEIGHT_BP_INT_CAP,
 } from "./constants";
 import {
     BelowWeightBpRangeError,
@@ -46,13 +46,13 @@ export type WeightBp = number & { readonly __brand: "weightBp" };
 
 export function validateWeightBp(input: number): WeightBp {
     assertNonNegativeInteger(input);
-    if (input > WEIGHT_BP_TOP_INT)
+    if (input > WEIGHT_BP_INT_CAP)
         throw new CapExceededError(
-            `${input} exceeds WEIGHT_BP_TOP_INT (${WEIGHT_BP_TOP_INT})`,
+            `${input} exceeds WEIGHT_BP_TOP_INT (${WEIGHT_BP_INT_CAP})`,
         );
-    if (input < WEIGHT_BP_BOTTOM_INT)
+    if (input < WEIGHT_BP_INT_BOTTOM)
         throw new BelowWeightBpRangeError(
-            `${input} is less than WEIGHT_BP_BOTTOM_INT (${WEIGHT_BP_BOTTOM_INT})`,
+            `${input} is less than WEIGHT_BP_BOTTOM_INT (${WEIGHT_BP_INT_BOTTOM})`,
         );
     return input as WeightBp;
 }

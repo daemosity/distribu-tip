@@ -10,8 +10,8 @@ import { CoreError, CoreErrorType } from "../src/core/errors";
 import {
     CENTS_INT_CAP,
     HOURS_CENTI_INT_CAP,
-    WEIGHT_BP_BOTTOM_INT,
-    WEIGHT_BP_TOP_INT,
+    WEIGHT_BP_INT_BOTTOM,
+    WEIGHT_BP_INT_CAP,
 } from "../src/core/constants";
 import { describe, test, expect } from "@jest/globals";
 
@@ -91,9 +91,9 @@ describe("validateWeightBp", () => {
         { input: -1, code: CoreErrorType.NEGATIVE_NUMBER },
         { input: 0.45, code: CoreErrorType.NONINTEGER_INPUT },
         { input: Number.NaN, code: CoreErrorType.NONINTEGER_INPUT },
-        { input: WEIGHT_BP_TOP_INT + 1, code: CoreErrorType.CAP_EXCEEDED },
+        { input: WEIGHT_BP_INT_CAP + 1, code: CoreErrorType.CAP_EXCEEDED },
         {
-            input: WEIGHT_BP_BOTTOM_INT - 1,
+            input: WEIGHT_BP_INT_BOTTOM - 1,
             code: CoreErrorType.BELOW_WEIGHT_BP_RANGE,
         },
         { input: Infinity, code: CoreErrorType.NONINTEGER_INPUT },
@@ -106,7 +106,7 @@ describe("validateWeightBp", () => {
         expect(() => validateWeightBp(input)).toThrow(CoreError);
     });
 
-    test.each([WEIGHT_BP_BOTTOM_INT, WEIGHT_BP_TOP_INT])("accepts %d", (a) => {
+    test.each([WEIGHT_BP_INT_BOTTOM, WEIGHT_BP_INT_CAP])("accepts %d", (a) => {
         expect(() => validateWeightBp(a)).not.toThrow();
         expect(validateWeightBp(a)).toBe(a);
     });
