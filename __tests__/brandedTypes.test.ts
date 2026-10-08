@@ -1,5 +1,6 @@
 import {
     Cents,
+    HoursCenti,
     validateCents,
     validateHoursCenti,
     validateWeightBp,
@@ -27,7 +28,7 @@ describe("validateCents", () => {
         expect.assertions(1);
 
         try {
-            validateCents(input);
+            validateCents(input) satisfies Cents;
         } catch (error) {
             expect(error).toMatchObject({ code: code });
         }
@@ -38,7 +39,7 @@ describe("validateCents", () => {
 
         try {
             // @ts-expect-error necessary to test invalid type input to prove it is handled correctly
-            validateCents("a");
+            validateCents("a") satisfies Cents;
         } catch (error) {
             expect(error).toMatchObject({
                 code: CoreErrorType.NONINTEGER_INPUT,
@@ -76,7 +77,7 @@ describe("validateHoursCenti", () => {
         expect.assertions(1);
 
         try {
-            validateHoursCenti(input);
+            validateHoursCenti(input) satisfies HoursCenti;
         } catch (error) {
             expect(error).toMatchObject({ code: code });
         }
@@ -116,7 +117,7 @@ describe("validateWeight", () => {
         expect.assertions(1);
 
         try {
-            validateWeightBp(input);
+            validateWeightBp(input) satisfies WeightBp;
         } catch (error) {
             expect(error).toMatchObject({ code: code });
         }
