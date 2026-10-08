@@ -70,4 +70,11 @@ describe("validateHoursCenti", () => {
 
         expect.assertions(1);
     });
+
+    test.each([0, HOURS_INT_CAP])(
+        "does not throw when provided valid input",
+        (a) => {
+            expect(() => validateHoursCenti(a)).not.toThrow();
+        },
+    );
 });
