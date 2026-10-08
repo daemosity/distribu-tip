@@ -1,4 +1,4 @@
-import { validateCents } from "../src/core/types";
+import { Cents, validateCents } from "../src/core/types";
 import { CoreErrorType } from "../src/core/errors";
 import { INT_CAP } from "../src/core/constants";
 import { describe, test, expect } from "@jest/globals";
@@ -37,5 +37,14 @@ describe("validateCents", () => {
 
     test.each([0, INT_CAP])("does not throw when provided valid input", (a) => {
         expect(() => validateCents(a)).not.toThrow();
+    });
+});
+
+describe("Cents brand", () => {
+    test("ensures raw number assignment fails typecheck", () => {
+        // @ts-expect-error pins invariant that `Cents` cannot be assigned raw numbers
+        // If an accidental change occurs, this typecheck will fail
+        const cents: Cents = 145;
+        expect(cents + cents).toEqual(290);
     });
 });
