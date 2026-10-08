@@ -1,6 +1,6 @@
 import { Cents, validateCents } from "../src/core/types";
 import { CoreErrorType } from "../src/core/errors";
-import { INT_CAP } from "../src/core/constants";
+import { CENTS_INT_CAP } from "../src/core/constants";
 import { describe, test, expect } from "@jest/globals";
 
 describe("validateCents", () => {
@@ -8,7 +8,7 @@ describe("validateCents", () => {
         { input: -1, code: CoreErrorType.NEGATIVE_NUMBER },
         { input: 0.45, code: CoreErrorType.NONINTEGER_INPUT },
         { input: Number.NaN, code: CoreErrorType.NONINTEGER_INPUT },
-        { input: INT_CAP + 1, code: CoreErrorType.CAP_EXCEEDED },
+        { input: CENTS_INT_CAP + 1, code: CoreErrorType.CAP_EXCEEDED },
         { input: Infinity, code: CoreErrorType.NONINTEGER_INPUT },
         { input: -Infinity, code: CoreErrorType.NONINTEGER_INPUT },
         { input: -0, code: CoreErrorType.NEGATIVE_NUMBER },
@@ -35,9 +35,12 @@ describe("validateCents", () => {
         expect.assertions(1);
     });
 
-    test.each([0, INT_CAP])("does not throw when provided valid input", (a) => {
-        expect(() => validateCents(a)).not.toThrow();
-    });
+    test.each([0, CENTS_INT_CAP])(
+        "does not throw when provided valid input",
+        (a) => {
+            expect(() => validateCents(a)).not.toThrow();
+        },
+    );
 });
 
 describe("Cents brand", () => {
