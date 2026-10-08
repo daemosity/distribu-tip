@@ -3,6 +3,7 @@ import {
     validateCents,
     validateHoursCenti,
     validateWeightBp,
+    WeightBp,
 } from "../src/core/types";
 import { CoreErrorType } from "../src/core/errors";
 import {
@@ -89,6 +90,15 @@ describe("validateHoursCenti", () => {
     );
 });
 
+describe("HoursCenti brand", () => {
+    test("ensures raw number assignment fails typecheck", () => {
+        // @ts-expect-error pins invariant that `HoursCenti` cannot be assigned raw numbers
+        // If an accidental change occurs, this typecheck will fail
+        const hoursCenti: HoursCenti = 145;
+        expect(hoursCenti + hoursCenti).toEqual(290);
+    });
+});
+
 describe("validateWeight", () => {
     test.each([
         { input: -1, code: CoreErrorType.NEGATIVE_NUMBER },
@@ -118,4 +128,13 @@ describe("validateWeight", () => {
             expect(() => validateWeightBp(a)).not.toThrow();
         },
     );
+});
+
+describe("WeightBp brand", () => {
+    test("ensures raw number assignment fails typecheck", () => {
+        // @ts-expect-error pins invariant that `WeightBp` cannot be assigned raw numbers
+        // If an accidental change occurs, this typecheck will fail
+        const weightBp: WeightBp = 100;
+        expect(weightBp + weightBp).toEqual(200);
+    });
 });
