@@ -1,0 +1,58 @@
+import {
+    CENTS_INT_CAP,
+    HOURS_CENTI_INT_CAP,
+    WEIGHT_BP_INT_BOTTOM,
+    WEIGHT_BP_INT_CAP,
+} from "./constants";
+import {
+    BelowWeightBpRangeError,
+    CapExceededError,
+    NegativeNumberError,
+    NonIntegerInputError,
+} from "./errors";
+
+export type Cents = number & { readonly __brand: "cents" };
+
+function assertNonNegativeInteger(input: number) {
+    if (!Number.isInteger(input))
+        throw new NonIntegerInputError(`${input} is not an integer`);
+    if (input < 0 || Object.is(input, -0))
+        throw new NegativeNumberError(
+            `${Object.is(input, -0) ? "-0" : String(input)} must be a non-negative integer`,
+        );
+}
+
+export function validateCents(input: number): Cents {
+    assertNonNegativeInteger(input);
+    if (input > CENTS_INT_CAP)
+        throw new CapExceededError(
+            `${input} exceeds CENTS_INT_CAP (${CENTS_INT_CAP})`,
+        );
+    return input as Cents;
+}
+
+export type HoursCenti = number & { readonly __brand: "hoursCenti" };
+
+export function validateHoursCenti(input: number): HoursCenti {
+    assertNonNegativeInteger(input);
+    if (input > HOURS_CENTI_INT_CAP)
+        throw new CapExceededError(
+            `${input} exceeds HOURS_CENTI_INT_CAP (${HOURS_CENTI_INT_CAP})`,
+        );
+    return input as HoursCenti;
+}
+
+export type WeightBp = number & { readonly __brand: "weightBp" };
+
+export function validateWeightBp(input: number): WeightBp {
+    assertNonNegativeInteger(input);
+    if (input > WEIGHT_BP_INT_CAP)
+        throw new CapExceededError(
+            `${input} exceeds WEIGHT_BP_INT_CAP (${WEIGHT_BP_INT_CAP})`,
+        );
+    if (input < WEIGHT_BP_INT_BOTTOM)
+        throw new BelowWeightBpRangeError(
+            `${input} is less than WEIGHT_BP_INT_BOTTOM (${WEIGHT_BP_INT_BOTTOM})`,
+        );
+    return input as WeightBp;
+}
