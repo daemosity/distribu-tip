@@ -18,7 +18,7 @@ function assertNonNegativeInteger(input: number) {
         throw new NonIntegerInputError(`${input} is not an integer`);
     if (input < 0 || Object.is(input, -0))
         throw new NegativeNumberError(
-            `${Object.is(input, -0) ? "-0" : String(input)} must be a positive integer`,
+            `${Object.is(input, -0) ? "-0" : String(input)} must be a non-negative integer`,
         );
 }
 
@@ -48,11 +48,11 @@ export function validateWeightBp(input: number): WeightBp {
     assertNonNegativeInteger(input);
     if (input > WEIGHT_BP_INT_CAP)
         throw new CapExceededError(
-            `${input} exceeds WEIGHT_BP_TOP_INT (${WEIGHT_BP_INT_CAP})`,
+            `${input} exceeds WEIGHT_BP_INT_CAP (${WEIGHT_BP_INT_CAP})`,
         );
     if (input < WEIGHT_BP_INT_BOTTOM)
         throw new BelowWeightBpRangeError(
-            `${input} is less than WEIGHT_BP_BOTTOM_INT (${WEIGHT_BP_INT_BOTTOM})`,
+            `${input} is less than WEIGHT_BP_INT_BOTTOM (${WEIGHT_BP_INT_BOTTOM})`,
         );
     return input as WeightBp;
 }
