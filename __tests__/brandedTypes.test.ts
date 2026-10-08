@@ -10,6 +10,7 @@ describe("validateCents", () => {
         { input: Number.NaN, code: CoreErrorType.NONINTEGER_INPUT },
         { input: INT_CAP + 1, code: CoreErrorType.CAP_EXCEEDED },
         { input: Infinity, code: CoreErrorType.NONINTEGER_INPUT },
+        { input: -Infinity, code: CoreErrorType.NONINTEGER_INPUT },
         { input: -0, code: CoreErrorType.NEGATIVE_NUMBER },
     ])("rejects $input with $code error", ({ input, code }) => {
         try {
@@ -17,6 +18,8 @@ describe("validateCents", () => {
         } catch (error) {
             expect(error).toMatchObject({ code: code });
         }
+
+        expect.assertions(1);
     });
 
     test("rejects non-number with NONINTEGER_INPUT", () => {
@@ -28,6 +31,8 @@ describe("validateCents", () => {
                 code: CoreErrorType.NONINTEGER_INPUT,
             });
         }
+
+        expect.assertions(1);
     });
 
     test.each([0, INT_CAP])("does not throw when provided valid input", (a) => {
