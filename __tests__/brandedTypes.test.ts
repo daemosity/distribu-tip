@@ -6,7 +6,7 @@ import {
     validateWeightBp,
     WeightBp,
 } from "../src/core/types";
-import { CoreErrorType } from "../src/core/errors";
+import { CoreError, CoreErrorType } from "../src/core/errors";
 import {
     CENTS_INT_CAP,
     HOURS_CENTI_INT_CAP,
@@ -25,32 +25,28 @@ describe("validateCents", () => {
         { input: -Infinity, code: CoreErrorType.NONINTEGER_INPUT },
         { input: -0, code: CoreErrorType.NEGATIVE_NUMBER },
     ])("rejects $input with $code error", ({ input, code }) => {
-        expect.assertions(1);
-
-        try {
-            validateCents(input) satisfies Cents;
-        } catch (error) {
-            expect(error).toMatchObject({ code: code });
-        }
+        expect(() => validateCents(input)).toThrow(
+            expect.objectContaining({ code: code }),
+        );
+        expect(() => validateCents(input)).toThrow(CoreError);
     });
 
     test("rejects non-number with NONINTEGER_INPUT", () => {
-        expect.assertions(1);
-
-        try {
-            // @ts-expect-error necessary to test invalid type input to prove it is handled correctly
-            validateCents("a");
-        } catch (error) {
-            expect(error).toMatchObject({
-                code: CoreErrorType.NONINTEGER_INPUT,
-            });
-        }
+        // @ts-expect-error necessary to test invalid type input to prove it is handled correctly
+        expect(() => validateCents("a")).toThrow(
+            expect.objectContaining({ code: CoreErrorType.NONINTEGER_INPUT }),
+        );
+        // @ts-expect-error necessary to test invalid 'a'
+        expect(() => validateCents("a")).toThrow(CoreError);
     });
 
     test.each([0, CENTS_INT_CAP])(
         "does not throw when provided valid input",
         (a) => {
             expect(() => validateCents(a)).not.toThrow();
+
+            const cents = validateCents(a);
+            expect(cents + cents).toEqual(a + a);
         },
     );
 });
@@ -74,19 +70,19 @@ describe("validateHoursCenti", () => {
         { input: -Infinity, code: CoreErrorType.NONINTEGER_INPUT },
         { input: -0, code: CoreErrorType.NEGATIVE_NUMBER },
     ])("rejects $input with $code error", ({ input, code }) => {
-        expect.assertions(1);
-
-        try {
-            validateHoursCenti(input) satisfies HoursCenti;
-        } catch (error) {
-            expect(error).toMatchObject({ code: code });
-        }
+        expect(() => validateHoursCenti(input)).toThrow(
+            expect.objectContaining({ code: code }),
+        );
+        expect(() => validateHoursCenti(input)).toThrow(CoreError);
     });
 
     test.each([0, HOURS_CENTI_INT_CAP])(
         "does not throw when provided valid input",
         (a) => {
             expect(() => validateHoursCenti(a)).not.toThrow();
+
+            const hoursCenti = validateHoursCenti(a);
+            expect(hoursCenti + hoursCenti).toEqual(a + a);
         },
     );
 });
@@ -114,19 +110,19 @@ describe("validateWeightBp", () => {
         { input: -Infinity, code: CoreErrorType.NONINTEGER_INPUT },
         { input: -0, code: CoreErrorType.NEGATIVE_NUMBER },
     ])("rejects $input with $code error", ({ input, code }) => {
-        expect.assertions(1);
-
-        try {
-            validateWeightBp(input) satisfies WeightBp;
-        } catch (error) {
-            expect(error).toMatchObject({ code: code });
-        }
+        expect(() => validateWeightBp(input)).toThrow(
+            expect.objectContaining({ code: code }),
+        );
+        expect(() => validateWeightBp(input)).toThrow(CoreError);
     });
 
     test.each([WEIGHT_BP_BOTTOM_INT, WEIGHT_BP_TOP_INT])(
         "does not throw when provided valid input",
         (a) => {
             expect(() => validateWeightBp(a)).not.toThrow();
+
+            const weightBp = validateWeightBp(a);
+            expect(weightBp + weightBp).toEqual(a + a);
         },
     );
 });
