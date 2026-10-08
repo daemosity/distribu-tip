@@ -23,16 +23,18 @@ describe("validateCents", () => {
         { input: -Infinity, code: CoreErrorType.NONINTEGER_INPUT },
         { input: -0, code: CoreErrorType.NEGATIVE_NUMBER },
     ])("rejects $input with $code error", ({ input, code }) => {
+        expect.assertions(1);
+
         try {
             validateCents(input);
         } catch (error) {
             expect(error).toMatchObject({ code: code });
         }
-
-        expect.assertions(1);
     });
 
     test("rejects non-number with NONINTEGER_INPUT", () => {
+        expect.assertions(1);
+
         try {
             // @ts-expect-error necessary to test invalid type input to prove it is handled correctly
             validateCents("a");
@@ -41,8 +43,6 @@ describe("validateCents", () => {
                 code: CoreErrorType.NONINTEGER_INPUT,
             });
         }
-
-        expect.assertions(1);
     });
 
     test.each([0, CENTS_INT_CAP])(
@@ -72,13 +72,13 @@ describe("validateHoursCenti", () => {
         { input: -Infinity, code: CoreErrorType.NONINTEGER_INPUT },
         { input: -0, code: CoreErrorType.NEGATIVE_NUMBER },
     ])("rejects $input with $code error", ({ input, code }) => {
+        expect.assertions(1);
+
         try {
             validateHoursCenti(input);
         } catch (error) {
             expect(error).toMatchObject({ code: code });
         }
-
-        expect.assertions(1);
     });
 
     test.each([0, HOURS_INT_CAP])(
@@ -103,13 +103,13 @@ describe("validateWeight", () => {
         { input: -Infinity, code: CoreErrorType.NONINTEGER_INPUT },
         { input: -0, code: CoreErrorType.NEGATIVE_NUMBER },
     ])("rejects $input with $code error", ({ input, code }) => {
+        expect.assertions(1);
+
         try {
             validateWeight(input);
         } catch (error) {
             expect(error).toMatchObject({ code: code });
         }
-
-        expect.assertions(1);
     });
 
     test.each([WEIGHT_BOTTOM_INT, WEIGHT_TOP_INT])(
