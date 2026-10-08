@@ -1,28 +1,36 @@
-import { parseToCents } from "../src/core/types";
-import {
-    CapExceededError,
-    NegativeNumberError,
-    NonIntegerInputError,
-} from "../src/core/errors";
+import { validateCents } from "../src/core/types";
+import { CoreErrorType } from "../src/core/errors";
+import { INT_CAP } from "../src/core/constants";
 import { describe, test, expect } from "@jest/globals";
 
-describe("parseToCents", () => {
+describe("validateCents", () => {
     test.each([
-        [-1, NegativeNumberError],
-        ["a", NonIntegerInputError],
-        [0.45, NonIntegerInputError],
-        [Number.NaN, NonIntegerInputError],
-        [10_000_001, CapExceededError],
-        [Infinity, NonIntegerInputError],
-    ])("rejects %s with %s", (a, expected) => {
-        // @ts-expect-error necessary to test invalid input to prove it is handled correctly
-        expect(() => parseToCents(a)).toThrow(expected);
+        { input: -1, code: CoreErrorType.NEGATIVE_NUMBER },
+        { input: 0.45, code: CoreErrorType.NONINTEGER_INPUT },
+        { input: Number.NaN, code: CoreErrorType.NONINTEGER_INPUT },
+        { input: INT_CAP + 1, code: CoreErrorType.CAP_EXCEEDED },
+        { input: Infinity, code: CoreErrorType.NONINTEGER_INPUT },
+        { input: -0, code: CoreErrorType.NEGATIVE_NUMBER },
+    ])("rejects $input with $code error", ({ input, code }) => {
+        try {
+            validateCents(input);
+        } catch (error) {
+            expect(error).toMatchObject({ code: code });
+        }
     });
 
-    test.each([0, 10_000_000])(
-        "does not throw when provided valid input",
-        (a) => {
-            expect(() => parseToCents(a)).not.toThrow();
-        },
-    );
+    test("rejects non-number with NONINTEGER_INPUT", () => {
+        try {
+            // @ts-expect-error necessary to test invalid type input to prove it is handled correctly
+            validateCents("a");
+        } catch (error) {
+            expect(error).toMatchObject({
+                code: CoreErrorType.NONINTEGER_INPUT,
+            });
+        }
+    });
+
+    test.each([0, INT_CAP])("does not throw when provided valid input", (a) => {
+        expect(() => validateCents(a)).not.toThrow();
+    });
 });
