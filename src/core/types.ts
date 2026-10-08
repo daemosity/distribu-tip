@@ -13,7 +13,7 @@ import {
 
 export type Cents = number & { readonly __brand: "cents" };
 
-function validatePositiveInteger(input: number) {
+function assertNonNegativeInteger(input: number) {
     if (!Number.isInteger(input))
         throw new NonIntegerInputError(`${input} is not an integer`);
     if (input < 0 || Object.is(input, -0))
@@ -23,7 +23,7 @@ function validatePositiveInteger(input: number) {
 }
 
 export function validateCents(input: number): Cents {
-    validatePositiveInteger(input);
+    assertNonNegativeInteger(input);
     if (input > CENTS_INT_CAP)
         throw new CapExceededError(
             `${input} exceeds CENTS_INT_CAP (${CENTS_INT_CAP})`,
@@ -34,7 +34,7 @@ export function validateCents(input: number): Cents {
 export type HoursCenti = number & { readonly __brand: "hoursCenti" };
 
 export function validateHoursCenti(input: number): HoursCenti {
-    validatePositiveInteger(input);
+    assertNonNegativeInteger(input);
     if (input > HOURS_CENTI_INT_CAP)
         throw new CapExceededError(
             `${input} exceeds HOURS_CENTI_INT_CAP (${HOURS_CENTI_INT_CAP})`,
@@ -45,7 +45,7 @@ export function validateHoursCenti(input: number): HoursCenti {
 export type WeightBp = number & { readonly __brand: "weightBp" };
 
 export function validateWeightBp(input: number): WeightBp {
-    validatePositiveInteger(input);
+    assertNonNegativeInteger(input);
     if (input > WEIGHT_BP_TOP_INT)
         throw new CapExceededError(
             `${input} exceeds WEIGHT_BP_TOP_INT (${WEIGHT_BP_TOP_INT})`,
