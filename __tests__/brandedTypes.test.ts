@@ -9,7 +9,7 @@ import {
 import { CoreErrorType } from "../src/core/errors";
 import {
     CENTS_INT_CAP,
-    HOURS_BP_INT_CAP,
+    HOURS_CENTI_INT_CAP,
     WEIGHT_BP_BOTTOM_INT,
     WEIGHT_BP_TOP_INT,
 } from "../src/core/constants";
@@ -39,7 +39,7 @@ describe("validateCents", () => {
 
         try {
             // @ts-expect-error necessary to test invalid type input to prove it is handled correctly
-            validateCents("a") satisfies Cents;
+            validateCents("a");
         } catch (error) {
             expect(error).toMatchObject({
                 code: CoreErrorType.NONINTEGER_INPUT,
@@ -69,7 +69,7 @@ describe("validateHoursCenti", () => {
         { input: -1, code: CoreErrorType.NEGATIVE_NUMBER },
         { input: 0.45, code: CoreErrorType.NONINTEGER_INPUT },
         { input: Number.NaN, code: CoreErrorType.NONINTEGER_INPUT },
-        { input: HOURS_BP_INT_CAP + 1, code: CoreErrorType.CAP_EXCEEDED },
+        { input: HOURS_CENTI_INT_CAP + 1, code: CoreErrorType.CAP_EXCEEDED },
         { input: Infinity, code: CoreErrorType.NONINTEGER_INPUT },
         { input: -Infinity, code: CoreErrorType.NONINTEGER_INPUT },
         { input: -0, code: CoreErrorType.NEGATIVE_NUMBER },
@@ -83,7 +83,7 @@ describe("validateHoursCenti", () => {
         }
     });
 
-    test.each([0, HOURS_BP_INT_CAP])(
+    test.each([0, HOURS_CENTI_INT_CAP])(
         "does not throw when provided valid input",
         (a) => {
             expect(() => validateHoursCenti(a)).not.toThrow();
@@ -100,7 +100,7 @@ describe("HoursCenti brand", () => {
     });
 });
 
-describe("validateWeight", () => {
+describe("validateWeightBp", () => {
     test.each([
         { input: -1, code: CoreErrorType.NEGATIVE_NUMBER },
         { input: 0.45, code: CoreErrorType.NONINTEGER_INPUT },

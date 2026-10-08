@@ -1,6 +1,6 @@
 import {
     CENTS_INT_CAP,
-    HOURS_BP_INT_CAP,
+    HOURS_CENTI_INT_CAP,
     WEIGHT_BP_BOTTOM_INT,
     WEIGHT_BP_TOP_INT,
 } from "./constants";
@@ -25,7 +25,7 @@ export type HoursCenti = number & { __brand: "hours" };
 export function validateHoursCenti(input: number): HoursCenti {
     if (!Number.isInteger(input)) throw new NonIntegerInputError();
     if (input < 0 || Object.is(input, -0)) throw new NegativeNumberError();
-    if (input > HOURS_BP_INT_CAP) throw new CapExceededError();
+    if (input > HOURS_CENTI_INT_CAP) throw new CapExceededError();
     return input as HoursCenti;
 }
 
