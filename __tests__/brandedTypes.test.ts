@@ -1,4 +1,9 @@
-import { Cents, validateCents, validateHoursCenti } from "../src/core/types";
+import {
+    Cents,
+    validateCents,
+    validateHoursCenti,
+    validateWeight,
+} from "../src/core/types";
 import { CoreErrorType } from "../src/core/errors";
 import {
     CENTS_INT_CAP,
@@ -110,7 +115,7 @@ describe("validateWeight", () => {
     test.each([WEIGHT_BOTTOM_INT, WEIGHT_TOP_INT])(
         "does not throw when provided valid input",
         (a) => {
-            expect(() => validateHoursCenti(a)).not.toThrow();
+            expect(() => validateWeight(a)).not.toThrow();
         },
     );
 });
