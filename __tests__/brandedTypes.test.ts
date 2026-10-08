@@ -104,7 +104,7 @@ describe("validateWeightBp", () => {
         { input: WEIGHT_BP_TOP_INT + 1, code: CoreErrorType.CAP_EXCEEDED },
         {
             input: WEIGHT_BP_BOTTOM_INT - 1,
-            code: CoreErrorType.BELOW_WEIGHT_RANGE,
+            code: CoreErrorType.BELOW_WEIGHT_BP_RANGE,
         },
         { input: Infinity, code: CoreErrorType.NONINTEGER_INPUT },
         { input: -Infinity, code: CoreErrorType.NONINTEGER_INPUT },

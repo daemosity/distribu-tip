@@ -4,7 +4,7 @@ export enum CoreErrorType {
     INVARIANT_FAILED = "INVARIANT_FAILED",
     NEGATIVE_NUMBER = "NEGATIVE_NUMBER",
     NONINTEGER_INPUT = "NONINTEGER_INPUT",
-    BELOW_WEIGHT_RANGE = "BELOW_WEIGHT_RANGE",
+    BELOW_WEIGHT_BP_RANGE = "BELOW_WEIGHT_BP_RANGE",
 }
 
 export class CoreError extends Error {
@@ -40,7 +40,7 @@ export class CapExceededError extends CoreError {
 
 export class BelowWeightBpRangeError extends CoreError {
     constructor(msg?: string) {
-        super(CoreErrorType.BELOW_WEIGHT_RANGE, msg);
+        super(CoreErrorType.BELOW_WEIGHT_BP_RANGE, msg);
         this.name = "BelowWeightBpRangeError";
     }
 }
