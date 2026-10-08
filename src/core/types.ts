@@ -5,7 +5,7 @@ import {
     WEIGHT_BP_TOP_INT,
 } from "./constants";
 import {
-    BelowWeightRangeError,
+    BelowWeightBpRangeError,
     CapExceededError,
     NegativeNumberError,
     NonIntegerInputError,
@@ -51,7 +51,7 @@ export function validateWeightBp(input: number): WeightBp {
             `${input} exceeds WEIGHT_BP_TOP_INT (${WEIGHT_BP_TOP_INT})`,
         );
     if (input < WEIGHT_BP_BOTTOM_INT)
-        throw new BelowWeightRangeError(
+        throw new BelowWeightBpRangeError(
             `${input} is less than WEIGHT_BP_BOTTOM_INT (${WEIGHT_BP_BOTTOM_INT})`,
         );
     return input as WeightBp;

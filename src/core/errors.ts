@@ -13,33 +13,34 @@ export class CoreError extends Error {
     constructor(coreError: CoreErrorType, msg?: string) {
         super(msg);
         this.code = coreError;
-        this.name = `${coreError
-            .split("_")
-            .map((word) => word[0] + word.toLowerCase().slice(1))
-            .join("")}Error`;
+        this.name = "CoreError";
     }
 }
 
 export class NegativeNumberError extends CoreError {
     constructor(msg?: string) {
         super(CoreErrorType.NEGATIVE_NUMBER, msg);
+        this.name = "NegativeNumberError";
     }
 }
 
 export class NonIntegerInputError extends CoreError {
     constructor(msg?: string) {
         super(CoreErrorType.NONINTEGER_INPUT, msg);
+        this.name = "NonIntegerInputError";
     }
 }
 
 export class CapExceededError extends CoreError {
     constructor(msg?: string) {
         super(CoreErrorType.CAP_EXCEEDED, msg);
+        this.name = "CapExceededError";
     }
 }
 
-export class BelowWeightRangeError extends CoreError {
+export class BelowWeightBpRangeError extends CoreError {
     constructor(msg?: string) {
         super(CoreErrorType.BELOW_WEIGHT_RANGE, msg);
+        this.name = "BelowWeightBpRangeError";
     }
 }
