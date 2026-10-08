@@ -11,7 +11,7 @@ import {
     NonIntegerInputError,
 } from "./errors";
 
-export type Cents = number & { __brand: "cents" };
+export type Cents = number & { readonly __brand: "cents" };
 
 function validatePositiveInteger(input: number) {
     if (!Number.isInteger(input))
@@ -31,7 +31,7 @@ export function validateCents(input: number): Cents {
     return input as Cents;
 }
 
-export type HoursCenti = number & { __brand: "hoursCenti" };
+export type HoursCenti = number & { readonly __brand: "hoursCenti" };
 
 export function validateHoursCenti(input: number): HoursCenti {
     validatePositiveInteger(input);
@@ -42,7 +42,7 @@ export function validateHoursCenti(input: number): HoursCenti {
     return input as HoursCenti;
 }
 
-export type WeightBp = number & { __brand: "weightBp" };
+export type WeightBp = number & { readonly __brand: "weightBp" };
 
 export function validateWeightBp(input: number): WeightBp {
     validatePositiveInteger(input);
