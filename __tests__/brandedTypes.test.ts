@@ -40,15 +40,12 @@ describe("validateCents", () => {
         expect(() => validateCents("a")).toThrow(CoreError);
     });
 
-    test.each([0, CENTS_INT_CAP])(
-        "does not throw when provided valid input",
-        (a) => {
-            expect(() => validateCents(a)).not.toThrow();
+    test.each([0, CENTS_INT_CAP])("accepts %d", (a) => {
+        expect(() => validateCents(a)).not.toThrow();
 
-            const cents = validateCents(a);
-            expect(cents + cents).toEqual(a + a);
-        },
-    );
+        const cents = validateCents(a);
+        expect(cents + cents).toEqual(a + a);
+    });
 });
 
 describe("Cents brand", () => {
@@ -76,15 +73,12 @@ describe("validateHoursCenti", () => {
         expect(() => validateHoursCenti(input)).toThrow(CoreError);
     });
 
-    test.each([0, HOURS_CENTI_INT_CAP])(
-        "does not throw when provided valid input",
-        (a) => {
-            expect(() => validateHoursCenti(a)).not.toThrow();
+    test.each([0, HOURS_CENTI_INT_CAP])("accepts %d", (a) => {
+        expect(() => validateHoursCenti(a)).not.toThrow();
 
-            const hoursCenti = validateHoursCenti(a);
-            expect(hoursCenti + hoursCenti).toEqual(a + a);
-        },
-    );
+        const hoursCenti = validateHoursCenti(a);
+        expect(hoursCenti + hoursCenti).toEqual(a + a);
+    });
 });
 
 describe("HoursCenti brand", () => {
@@ -116,15 +110,12 @@ describe("validateWeightBp", () => {
         expect(() => validateWeightBp(input)).toThrow(CoreError);
     });
 
-    test.each([WEIGHT_BP_BOTTOM_INT, WEIGHT_BP_TOP_INT])(
-        "does not throw when provided valid input",
-        (a) => {
-            expect(() => validateWeightBp(a)).not.toThrow();
+    test.each([WEIGHT_BP_BOTTOM_INT, WEIGHT_BP_TOP_INT])("accepts %d", (a) => {
+        expect(() => validateWeightBp(a)).not.toThrow();
 
-            const weightBp = validateWeightBp(a);
-            expect(weightBp + weightBp).toEqual(a + a);
-        },
-    );
+        const weightBp = validateWeightBp(a);
+        expect(weightBp + weightBp).toEqual(a + a);
+    });
 });
 
 describe("WeightBp brand", () => {
