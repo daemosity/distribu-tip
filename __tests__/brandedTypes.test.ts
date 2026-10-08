@@ -2,14 +2,14 @@ import {
     Cents,
     validateCents,
     validateHoursCenti,
-    validateWeight,
+    validateWeightBp,
 } from "../src/core/types";
 import { CoreErrorType } from "../src/core/errors";
 import {
     CENTS_INT_CAP,
-    HOURS_INT_CAP,
-    WEIGHT_BOTTOM_INT,
-    WEIGHT_TOP_INT,
+    HOURS_BP_INT_CAP,
+    WEIGHT_BP_BOTTOM_INT,
+    WEIGHT_BP_TOP_INT,
 } from "../src/core/constants";
 import { describe, test, expect } from "@jest/globals";
 
@@ -67,7 +67,7 @@ describe("validateHoursCenti", () => {
         { input: -1, code: CoreErrorType.NEGATIVE_NUMBER },
         { input: 0.45, code: CoreErrorType.NONINTEGER_INPUT },
         { input: Number.NaN, code: CoreErrorType.NONINTEGER_INPUT },
-        { input: HOURS_INT_CAP + 1, code: CoreErrorType.CAP_EXCEEDED },
+        { input: HOURS_BP_INT_CAP + 1, code: CoreErrorType.CAP_EXCEEDED },
         { input: Infinity, code: CoreErrorType.NONINTEGER_INPUT },
         { input: -Infinity, code: CoreErrorType.NONINTEGER_INPUT },
         { input: -0, code: CoreErrorType.NEGATIVE_NUMBER },
@@ -81,7 +81,7 @@ describe("validateHoursCenti", () => {
         }
     });
 
-    test.each([0, HOURS_INT_CAP])(
+    test.each([0, HOURS_BP_INT_CAP])(
         "does not throw when provided valid input",
         (a) => {
             expect(() => validateHoursCenti(a)).not.toThrow();
@@ -94,9 +94,9 @@ describe("validateWeight", () => {
         { input: -1, code: CoreErrorType.NEGATIVE_NUMBER },
         { input: 0.45, code: CoreErrorType.NONINTEGER_INPUT },
         { input: Number.NaN, code: CoreErrorType.NONINTEGER_INPUT },
-        { input: WEIGHT_TOP_INT + 1, code: CoreErrorType.CAP_EXCEEDED },
+        { input: WEIGHT_BP_TOP_INT + 1, code: CoreErrorType.CAP_EXCEEDED },
         {
-            input: WEIGHT_BOTTOM_INT - 1,
+            input: WEIGHT_BP_BOTTOM_INT - 1,
             code: CoreErrorType.BELOW_WEIGHT_RANGE,
         },
         { input: Infinity, code: CoreErrorType.NONINTEGER_INPUT },
@@ -106,16 +106,16 @@ describe("validateWeight", () => {
         expect.assertions(1);
 
         try {
-            validateWeight(input);
+            validateWeightBp(input);
         } catch (error) {
             expect(error).toMatchObject({ code: code });
         }
     });
 
-    test.each([WEIGHT_BOTTOM_INT, WEIGHT_TOP_INT])(
+    test.each([WEIGHT_BP_BOTTOM_INT, WEIGHT_BP_TOP_INT])(
         "does not throw when provided valid input",
         (a) => {
-            expect(() => validateWeight(a)).not.toThrow();
+            expect(() => validateWeightBp(a)).not.toThrow();
         },
     );
 });
