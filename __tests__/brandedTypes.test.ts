@@ -48,3 +48,22 @@ describe("Cents brand", () => {
         expect(cents + cents).toEqual(290);
     });
 });
+
+describe("validateHoursCenti", () => {
+    test.each([
+        { input: -1, code: CoreErrorType.NEGATIVE_NUMBER },
+        { input: 0.45, code: CoreErrorType.NONINTEGER_INPUT },
+        { input: Number.NaN, code: CoreErrorType.NONINTEGER_INPUT },
+        { input: Infinity, code: CoreErrorType.NONINTEGER_INPUT },
+        { input: -Infinity, code: CoreErrorType.NONINTEGER_INPUT },
+        { input: -0, code: CoreErrorType.NEGATIVE_NUMBER },
+    ])("rejects $input with $code error", ({ input, code }) => {
+        try {
+            validateHoursCenti(input);
+        } catch (error) {
+            expect(error).toMatchObject({ code: code });
+        }
+
+        expect.assertions(1);
+    });
+});
