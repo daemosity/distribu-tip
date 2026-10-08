@@ -42,9 +42,7 @@ describe("validateCents", () => {
 
     test.each([0, CENTS_INT_CAP])("accepts %d", (a) => {
         expect(() => validateCents(a)).not.toThrow();
-
-        const cents = validateCents(a);
-        expect(cents + cents).toEqual(a + a);
+        expect(validateCents(a)).toBe(a);
     });
 });
 
@@ -75,9 +73,7 @@ describe("validateHoursCenti", () => {
 
     test.each([0, HOURS_CENTI_INT_CAP])("accepts %d", (a) => {
         expect(() => validateHoursCenti(a)).not.toThrow();
-
-        const hoursCenti = validateHoursCenti(a);
-        expect(hoursCenti + hoursCenti).toEqual(a + a);
+        expect(validateHoursCenti(a)).toBe(a);
     });
 });
 
@@ -112,9 +108,7 @@ describe("validateWeightBp", () => {
 
     test.each([WEIGHT_BP_BOTTOM_INT, WEIGHT_BP_TOP_INT])("accepts %d", (a) => {
         expect(() => validateWeightBp(a)).not.toThrow();
-
-        const weightBp = validateWeightBp(a);
-        expect(weightBp + weightBp).toEqual(a + a);
+        expect(validateWeightBp(a)).toBe(a);
     });
 });
 
