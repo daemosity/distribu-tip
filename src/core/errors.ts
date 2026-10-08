@@ -8,16 +8,15 @@ export enum CoreErrorType {
 }
 
 export class CoreError extends Error {
-    public readonly errorCode: CoreErrorType;
+    public readonly code: CoreErrorType;
 
     constructor(coreError: CoreErrorType, msg?: string) {
         super(msg);
-        this.errorCode = coreError;
-        this.name = `ERR_${coreError}`;
-    }
-
-    get code() {
-        return this.errorCode;
+        this.code = coreError;
+        this.name = `${coreError
+            .split("_")
+            .map((word) => word[0] + word.toLowerCase().slice(1))
+            .join("")}Error`;
     }
 }
 
