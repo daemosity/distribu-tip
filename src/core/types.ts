@@ -20,7 +20,7 @@ export function validateCents(input: number): Cents {
     return input as Cents;
 }
 
-export type HoursCenti = number & { __brand: "hours" };
+export type HoursCenti = number & { __brand: "hoursCenti" };
 
 export function validateHoursCenti(input: number): HoursCenti {
     if (!Number.isInteger(input)) throw new NonIntegerInputError();
@@ -29,7 +29,7 @@ export function validateHoursCenti(input: number): HoursCenti {
     return input as HoursCenti;
 }
 
-export type WeightBp = number & { __brand: "weight" };
+export type WeightBp = number & { __brand: "weightBp" };
 
 export function validateWeightBp(input: number): WeightBp {
     if (!Number.isInteger(input)) throw new NonIntegerInputError();
