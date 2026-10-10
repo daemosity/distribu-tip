@@ -13,14 +13,8 @@ function createBillCountObject(): BillCounts {
     ) as BillCounts;
 }
 
-export function billsFor(centAmount: Cents): BillCounts {
+export function billsFor(_centAmount: Cents): BillCounts {
     const billCount: BillCounts = createBillCountObject();
-
-    let amountDollars = Math.round(centAmount / 100);
-    for (const d of BILL_COUNT_DENOMINATIONS) {
-        billCount[d] = Math.floor(amountDollars / d);
-        amountDollars = amountDollars % d;
-    }
 
     return billCount;
 }
