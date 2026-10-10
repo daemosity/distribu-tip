@@ -1,3 +1,44 @@
-// M2-3 seam: Keeps src/core non-empty so tsc -p tsconfig.core.json doesn't fail with TS18003; replaced by the public API in M2-3
+import { allocate } from "./allocate";
+import { billsFor } from "./bills";
+import {
+    CoreError,
+    CoreErrorType,
+    NegativeNumberError,
+    NonIntegerInputError,
+    CapExceededError,
+    BelowWeightBpRangeError,
+} from "./errors";
+import { validateCents, validateHoursCenti, validateWeightBp } from "./types";
+import type { Cents, HoursCenti, WeightBp } from "./types";
+import type { BillCounts } from "./bills";
+import type {
+    AllocationInput,
+    AllocationResult,
+    Worker,
+    WorkerPayout,
+} from "./allocate";
 
-export {};
+export {
+    allocate,
+    billsFor,
+    validateCents,
+    validateHoursCenti,
+    validateWeightBp,
+    CoreError,
+    CoreErrorType,
+    NegativeNumberError,
+    NonIntegerInputError,
+    CapExceededError,
+    BelowWeightBpRangeError,
+};
+
+export type {
+    Cents,
+    HoursCenti,
+    WeightBp,
+    BillCounts,
+    AllocationInput,
+    AllocationResult,
+    Worker,
+    WorkerPayout,
+};
