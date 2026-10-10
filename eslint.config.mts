@@ -21,6 +21,8 @@ const boundariesConfig = createConfig({
                 default: "disallow",
                 checkAllOrigins: true,
                 checkUnknownLocals: true,
+                message:
+                    "'{{from.element.path}}' has violated the boundary rules. Violating imports: '{{dependency.source}}'",
                 policies: [
                     {
                         from: { element: { type: "coreFolders" } },
