@@ -17,17 +17,21 @@ import { beforeAll, afterAll, describe, it, expect } from "@jest/globals";
 // Repo root (this file lives in <root>/__tests__/).
 const ROOT = path.resolve(__dirname, "../");
 
-const PROBE_PATH = "src/core/probe.ts";
+const CORE_PROBE_PATH = "src/core/probe.ts";
+const APP_PROBE_PATH = "src/app/probe.ts";
 
 // Resolution-based rules (e.g. eslint-plugin-boundaries, import-x) classify an
 // import by resolving it to a real file, and skip imports of files that don't
 // exist. So the import targets must exist on disk. They are created here only
 // when missing, and only what this test created is removed afterwards.
 const FIXTURES: Record<string, string> = {
-    "src/app/thing.ts": "export default 1;\n",
+    "src/otherThing.ts": "export const x = 1;\n",
+    "src/app/thing.ts": "export default 1;\nexport const x = 1;\n",
     "src/core/money.ts": "export const x = 1;\n",
     "src/core/sub/util.ts": "export const x = 1;\n",
     "src/core/probe.ts": "export {};\n",
+    "src/app/probe.ts": "export {};\n",
+    "src/app/sub/util.ts": "export const x = 1;\n",
 };
 
 const createdFiles: string[] = [];
@@ -77,13 +81,13 @@ function summarize(messages: Linter.LintMessage[]) {
     );
 }
 
-async function lintProbe(code: string) {
+async function lintProbe(code: string, probePath: string) {
     const results = await eslint.lintText(code, {
-        filePath: path.join(ROOT, PROBE_PATH),
+        filePath: path.join(ROOT, probePath),
     });
     const result = results[0];
     if (!result) {
-        throw new Error(`ESLint returned no result for ${PROBE_PATH}`);
+        throw new Error(`ESLint returned no result for ${probePath}`);
     }
     const errors = result.messages.filter((m) => m.severity === 2);
     return { all: result.messages, errors };
@@ -93,8 +97,8 @@ async function lintProbe(code: string) {
 // require the error to be reported there. Parse errors don't count.
 const OFFENDING_LINE = 1;
 
-async function expectErrorOnOffendingLine(code: string) {
-    const { all, errors } = await lintProbe(code);
+async function expectErrorOnOffendingLine(code: string, probePath: string) {
+    const { all, errors } = await lintProbe(code, probePath);
     const hits = errors.filter((m) => !m.fatal && m.line === OFFENDING_LINE);
     if (hits.length === 0) {
         // Jest's expect() has no custom-message argument, so throw with every
@@ -112,7 +116,7 @@ type Probe = [name: string, code: string];
 
 // Every import probe uses its import (export const y = ...) so
 // no-unused-vars can't muddy the result.
-const forbiddenImports: Probe[] = [
+const coreForbiddenImports: Probe[] = [
     [
         "relative escape out of core",
         `import x from "../app/thing";\nexport const y = x;\n`,
@@ -140,7 +144,7 @@ const forbiddenImports: Probe[] = [
     ],
 ];
 
-const forbiddenGlobals: Probe[] = [
+const coreForbiddenGlobals: Probe[] = [
     ["window", `export const y = window.location;\n`],
     ["document", `export const y = document.title;\n`],
     ["localStorage", `export const y = localStorage.getItem("k");\n`],
@@ -148,7 +152,7 @@ const forbiddenGlobals: Probe[] = [
     ["process", `export const y = process.env.NODE_ENV;\n`],
 ];
 
-const allowed: Probe[] = [
+const coreAllowed: Probe[] = [
     [
         "sibling file inside core (./money)",
         `import { x } from "./money";\nexport const y = x;\n`,
@@ -164,30 +168,136 @@ const allowed: Probe[] = [
     ["ECMAScript built-ins (Math)", `export const y = Math.max(1, 2);\n`],
 ];
 
-describe(`core boundary (${PROBE_PATH})`, () => {
+describe(`core boundary (${CORE_PROBE_PATH})`, () => {
     describe("imports from outside src/core", () => {
-        it.each(forbiddenImports)(
+        it.each(coreForbiddenImports)(
             "reports an error for: %s",
             async (_name, code) => {
-                await expectErrorOnOffendingLine(code);
+                await expectErrorOnOffendingLine(code, CORE_PROBE_PATH);
             },
         );
     });
 
     describe("environment globals", () => {
-        it.each(forbiddenGlobals)(
+        it.each(coreForbiddenGlobals)(
             "reports an error for: %s",
             async (_name, code) => {
-                await expectErrorOnOffendingLine(code);
+                await expectErrorOnOffendingLine(code, CORE_PROBE_PATH);
             },
         );
     });
 
     describe("allowed code", () => {
-        it.each(allowed)("reports no errors for: %s", async (_name, code) => {
-            const { errors } = await lintProbe(code);
-            // On failure, Jest prints the offending rules and messages.
-            expect(summarize(errors)).toEqual([]);
-        });
+        it.each(coreAllowed)(
+            "reports no errors for: %s",
+            async (_name, code) => {
+                const { errors } = await lintProbe(code, CORE_PROBE_PATH);
+                // On failure, Jest prints the offending rules and messages.
+                expect(summarize(errors)).toEqual([]);
+            },
+        );
+    });
+});
+
+const appForbiddenImports: Probe[] = [
+    [
+        "a type-only deep import from inside core",
+        `import type { BillCounts } from "../core/types";\nexport const bills: BillCounts = {20: 0, 10: 0, 5: 0, 1: 0};\n`,
+    ],
+    ["re-export from inside core", `export * from "../core/money";\n`],
+    [
+        "relative import from non-index file inside core (../core/money)",
+        `import { x } from "../core/money";\nexport const y = x;\n`,
+    ],
+    [
+        "nested folder inside core (src/core/sub/util)",
+        `import { x } from "../core/sub/util";\nexport const y = x;\n`,
+    ],
+    [
+        "aliased nested folder inside core (@/core/sub/util)",
+        `import { x } from "@/core/sub/util";\nexport const y = x;\n`,
+    ],
+    [
+        "path alias into core (@/core/money)",
+        `import { x } from "@/core/money";\nexport const y = x;\n`,
+    ],
+];
+
+const appAllowed: Probe[] = [
+    [
+        "relative escape out of app",
+        `import x from "../otherThing";\nexport const y = x;\n`,
+    ],
+    [
+        "path-alias escape (@/otherThing)",
+        `import x from "@/otherThing";\nexport const y = x;\n`,
+    ],
+    ["re-export from outside core", `export * from "../otherThing";\n`],
+    [
+        "package (react)",
+        `import React from "react";\nexport const y = React;\n`,
+    ],
+    [
+        "package not otherwise listed (date-fns)",
+        `import { format } from "date-fns";\nexport const y = format;\n`,
+    ],
+    [
+        "node builtin (node:fs)",
+        `import fs from "node:fs";\nexport const y = fs;\n`,
+    ],
+    [
+        "node builtin without prefix (fs)",
+        `import fs from "fs";\nexport const y = fs;\n`,
+    ],
+    [
+        "sibling file inside app (./thing)",
+        `import z from "./thing";\nexport const y = z;\n`,
+    ],
+    [
+        "nested folder inside app (./sub/util)",
+        `import { x } from "./sub/util";\nexport const y = x;\n`,
+    ],
+    [
+        "path alias into app (@/app/thing)",
+        `import { x } from "@/app/thing";\nexport const y = x;\n`,
+    ],
+    ["ECMAScript built-ins (Math)", `export const y = Math.max(1, 2);\n`],
+    [
+        "path alias to core index (@/core)",
+        `import { allocate } from "@/core";\nexport const x = allocate;\n`,
+    ],
+    [
+        "relative import to core index (../core)",
+        `import type { BillCounts } from "../core";\nexport const bills: BillCounts = {20: 0, 10: 0, 5: 0, 1: 0};\n`,
+    ],
+    [
+        "path alias to core index (@/core/index)",
+        `import type { BillCounts } from "@/core/index";\nexport const bills: BillCounts = {20: 0, 10: 0, 5: 0, 1: 0};\n`,
+    ],
+    [
+        "relative import to core index (../core/index)",
+        `import { allocate } from "../core/index";\nexport const x = allocate;\n`,
+    ],
+];
+
+describe(`boundary cases for (${APP_PROBE_PATH})`, () => {
+    describe("deep imports into src/core fail linting", () => {
+        it.each(appForbiddenImports)(
+            "reports an error for: %s",
+            async (_name, code) => {
+                await expectErrorOnOffendingLine(code, APP_PROBE_PATH);
+            },
+        );
+    });
+
+    describe("allowed code", () => {
+        it.each(appAllowed)(
+            "reports no errors for: %s",
+            async (_name, code) => {
+                const { errors } = await lintProbe(code, APP_PROBE_PATH);
+                // On failure, Jest prints the offending rules and messages.
+                expect(summarize(errors)).toEqual([]);
+            },
+        );
     });
 });
