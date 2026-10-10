@@ -1,3 +1,4 @@
+import { describe, test, expect } from "@jest/globals";
 import {
     Cents,
     HoursCenti,
@@ -5,15 +6,14 @@ import {
     validateHoursCenti,
     validateWeightBp,
     WeightBp,
-} from "../src/core/types";
-import { CoreError, CoreErrorType } from "../src/core/errors";
+} from "../types";
+import { CoreError, CoreErrorType } from "../errors";
 import {
     CENTS_INT_CAP,
     HOURS_CENTI_INT_CAP,
     WEIGHT_BP_INT_BOTTOM,
     WEIGHT_BP_INT_CAP,
-} from "../src/core/constants";
-import { describe, test, expect } from "@jest/globals";
+} from "../constants";
 
 describe("validateCents", () => {
     test.each([

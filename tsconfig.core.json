@@ -4,5 +4,7 @@
         "lib": ["ES2022"],
         "types": []
     },
-    "include": ["src/core/**/*"]
+    "include": ["src/core/**/*"],
+    // tests need Jest's types
+    "exclude": ["src/core/**/__tests__/**"]
 }
