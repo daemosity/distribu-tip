@@ -17,5 +17,5 @@
         "noImplicitOverride": true,
         "noEmit": true
     },
-    "include": ["src/**/*", "__tests__/**/*", "eslint.config.mts"]
+    "include": ["src/**/*", "__tests__/**/*", "eslint.config.mts", "types/**/*"]
 }
