@@ -12,6 +12,11 @@ The app is a calculator and a record, not a payment system. Counting the tips, g
 
 - Node: 26
     - see ./.nvmrc for confirmation
+- Expo v57
+- Emulators/Simulators to test on. Some options:
+    - [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+    - [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+    - [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
 ## Setup
 
