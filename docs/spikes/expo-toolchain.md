@@ -1,13 +1,13 @@
 # Spike: Expo SDK and toolchain compatibility (M3-1)
 
-| Field         | Value                                                                                                                                                |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Issue         | [M3-1](https://github.com/daemosity/distribu-tip/issues/23)                                                                                          |
-| Status        | Complete. Findings dated 2026-10-10, recommendation revised 2026-10-11 (see [Revisions](#revisions)); they expire, see [Revisit when](#revisit-when) |
-| Timebox       | 0.5 focus day                                                                                                                                        |
-| Actual        | 0.72, ran over due to unanticipated issues with ESLint peer dependencies and narrowing down how SDK 58's release timing would affect the project     |
-| Informs       | M3-2 (scaffold), M3-3 (Jest projects), M5-1 (EAS Node version)                                                                                       |
-| Spike folders | `../distributip-spike`, scratch ESLint folders. Thrown away; nothing here ships                                                                      |
+| Field         | Value                                                                                                                                                                                          |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Issue         | [M3-1](https://github.com/daemosity/distribu-tip/issues/23)                                                                                                                                    |
+| Status        | Complete. Findings dated 2026-10-10, recommendation revised 2026-10-11 (see [Revisions](#revisions)); they expire, see [Revisit when](#revisit-when)                                           |
+| Timebox       | 0.5 focus day, additional 1.21 focus days for ramp-up                                                                                                                                          |
+| Actual        | 0.72, ramp-up: 1 additional focus day. Spike itself ran over due to unanticipated issues with ESLint peer dependencies and narrowing down how SDK 58's release timing would affect the project |
+| Informs       | M3-2 (scaffold), M3-3 (Jest projects), M5-1 (EAS Node version)                                                                                                                                 |
+| Spike folders | `../distributip-spike`, scratch ESLint folders. Thrown away; nothing here ships                                                                                                                |
 
 ## Bottom line
 
@@ -39,7 +39,7 @@ Every experiment ran outside the repo, so nothing in `distributip` was at risk:
 3. Pasted the repo's `devDependencies` into the spike's `package.json` exactly as written, ran plain `npm install` (not `npx expo install`, which picks its own versions), then `npx expo-doctor` and `npm ls`.
 4. For ESLint, stated a prediction first, then linted one probe file containing a known violation for each plugin, under ESLint 10, under ESLint 9 as a control, and under a composed alternative. Commands are in [Reproduce](#reproduce).
 
-Environment: Q1–Q5 and Q7 ran on my machine (Node 26). The ESLint experiment (Q6) ran in a clean sandbox on Node 22.22.0 and npm 10.9.4; the result doesn't depend on Node version, but rerun it locally before relying on it.
+Environment: Q1–Q5 and Q7 ran on my machine (Node 26)
 
 ## Findings
 
