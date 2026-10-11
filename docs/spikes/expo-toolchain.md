@@ -153,7 +153,7 @@ So today `npm run typecheck` (CI's type gate) usually runs TS 7, while ts-jest a
 
 1. **SDK 57.0.27, without `jest-expo`.** Run `npm view expo dist-tags` once at the start to confirm `latest` is still 57; if 58 has become `latest` overnight, scaffold on 58 instead and skip the upgrade below. Keep the repo's Jest 30; core tests keep running on ts-jest as today. If `expo-doctor` still flags `jest` without `jest-expo` installed (not tested in this spike), explain the warning in the PR, as M3-2's acceptance criteria allow.
 2. **Generate, then merge.** Generate with `--template default@sdk-57 --no-agents-md` in a temporary folder and run `reset-project` there. Commit one: template-only files copied untouched. Commit two: the six collisions resolved per the Q2 table. This keeps the "scaffold commit untouched" promise even though some files can't be copied as-is.
-3. **ESLint: compose, don't adopt `eslint-config-expo`.** Start from config D, minus anything TypeScript already covers. `import-x` is optional, since TypeScript reports unresolved modules and missing exports. Record the departure from M3-2's deliverable in **ADR-004** (the roadmap reserves 002 and 003), with an exit condition: switch back when `eslint-config-expo` supports ESLint 10.
+3. **ESLint: compose, don't adopt `eslint-config-expo`.** Start from config D, minus anything TypeScript already covers. `import-x` is optional, since TypeScript reports unresolved modules and missing exports. Record the departure from M3-2's deliverable in the M3-2 ADR, with an exit condition: switch back when `eslint-config-expo` supports ESLint 10.
 4. **TypeScript.** Keep both versions. Change `typecheck` to call TS 7 by path (`node node_modules/@typescript/native/bin/tsc -p …`). Cover it in the same ADR, with an exit condition: drop TS 6 when ts-jest and typescript-eslint support TS 7.
 
 **Between M3-2 and M3-3: upgrade to SDK 58** once it's `latest`, following Expo's upgrade walkthrough (`npx expo install expo@^58 --fix`, then `npx expo-doctor`). Re-run Q2, Q4 and Q6 against 58 as part of it, about 30 minutes. The design doc allows SDK upgrades only between milestones, and this one is inside M3, so it's a deliberate exception, recorded in the upgrade PR: the rule protects features in progress, and at this point there are none, only a scaffold.
@@ -177,7 +177,7 @@ So today `npm run typecheck` (CI's type gate) usually runs TS 7, while ts-jest a
 
 - `expo`'s `latest` tag moves to 58: upgrade before M3-3, re-running Q2, Q4 and Q6.
 - M3-2 merges while 58 is still not `latest`: take the M3-3 fallback.
-- `eslint-config-expo` releases with ESLint 10 support: reconsider Q6 and ADR-004.
+- `eslint-config-expo` releases with ESLint 10 support: reconsider Q6 the M3-2 ADR.
 - ts-jest and typescript-eslint support TS 7: reconsider Q7.
 
 ## Reproduce
