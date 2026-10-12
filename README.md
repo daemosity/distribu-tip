@@ -138,15 +138,15 @@ This repo was started with `ts-jest` - with it, we GAIN direct access to the Typ
 
 The trade-off in choosing `ts-jest` is that it runs slower than `babel-jest`, and it is also currently locked to TypeScript 6 (see [ts-jest section](#ts-jests-unique-dependency-configuration)), which means it doesn't have access to TypeScript 7's improvements.
 
-Note: As this application will eventually use `Expo`, `ts-jest` will need to be swapped out for `jest-expo`, which runs on Babel - and losing the paired "test-and-typecheck" benefits. However, in the early stages of this project, when we're working on pure domain logic, using `ts-jest` seems worth the later migration.
+Note: As this application uses `Expo`, `ts-jest` may need to be swapped out for `jest-expo`, which runs on Babel - and losing the paired "test-and-typecheck" benefits. However, in the early stages of this project, when we're working on pure domain logic, using `ts-jest` seems worth the later migration.
 
 #### ts-jest's unique dependency configuration
 
 This package has two TypeScript versions installed side by side, a necessity for running ts-jest v29 alongside TypeScript 7.
 
-`ts-jest` notes that [Typescript 7.0 doesn't ship with the Javascript Compiler API `ts-jest` needs for its tooling](https://kulshekhar.github.io/ts-jest/docs/next/guides/typescript-7). This is also why both Expo 57 and 58 don't bundle with TypeScript 7 - they're waiting on a public API as well. Taking up `ts-jest`'s suggestion to install Typsecript 7 under an alias, this project includes it under `@typescript/native`, and calls its `tsc` directly in its package's `npm run typecheck` script.
+`ts-jest` notes that [Typescript 7.0 doesn't ship with the Javascript Compiler API `ts-jest` needs for its tooling](https://kulshekhar.github.io/ts-jest/docs/next/guides/typescript-7). This is also why both Expo 57 and 58 don't bundle with TypeScript 7 - they're waiting on a public API as well. Taking up `ts-jest`'s suggestion to install TypeScript 7 under an alias, this project includes it under `@typescript/native`, and calls its `tsc` directly in its package's `npm run typecheck` script.
 
-This allows TS7's blazingly fast typecheck during development and CI while still providing TypeScript 6 so this repo's other librarys can still operate with TypeScript support.
+This allows TS7's blazingly fast typecheck during development and CI while still providing TypeScript 6 so this repo's other libraries can still operate with TypeScript support.
 
 ## Architectural Decisions
 
