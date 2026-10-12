@@ -12,11 +12,17 @@
         "types": ["node"],
         "esModuleInterop": true,
         "strict": true,
-        // Stricter Typechecking Options
         "noUncheckedIndexedAccess": true,
         "noImplicitOverride": true,
         "noEmit": true,
         "allowUnreachableCode": false
     },
-    "include": ["src/**/*", "__tests__/**/*", "eslint.config.mts", "types/**/*"]
+    "include": [
+        "src/**/*",
+        "__tests__/**/*",
+        "eslint.config.mts",
+        "types/**/*",
+        ".expo/types/**/*.ts",
+        "expo-env.d.ts"
+    ]
 }
