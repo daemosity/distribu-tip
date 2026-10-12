@@ -10,7 +10,7 @@
     "scripts": {
         "start": "expo start",
         "test": "NODE_OPTIONS=--experimental-vm-modules jest",
-        "typecheck": "node node_modules/@typescript/native/bin/tsc -p tsconfig.json --noEmit && node node_modules/@typescript/native/bin/tsc -p tsconfig.core.json --noEmit",
+        "typecheck": "node node_modules/@typescript/native/bin/tsc --version && node node_modules/@typescript/native/bin/tsc -p tsconfig.json --noEmit && node node_modules/@typescript/native/bin/tsc -p tsconfig.core.json --noEmit",
         "lint": "eslint .",
         "android": "expo start --android",
         "ios": "expo start --ios",
