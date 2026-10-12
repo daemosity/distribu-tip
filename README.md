@@ -18,7 +18,7 @@ The app is a calculator and a record, not a payment system. Counting the tips, g
     - [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
     - [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-## Setup
+## Development Setup
 
 To install the library versions we're working with, as well as `husky` + `lint-staged` pre-commit hooks, which will lint and format files before they are captured in a commit:
 
