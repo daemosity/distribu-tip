@@ -18,8 +18,9 @@ npx expo start              # start the dev server
 npm run lint               # lint
 npm run typecheck            # typecheck
 npx expo-doctor             # diagnose dependency and config issues
-npx expo install --fix      # fix incompatible package versions
 ```
+
+The current mismatch between Expo 57's Jest 29 and this repo's Jest 30 is intentional.
 
 Run lint and typecheck before declaring any task done.
 
