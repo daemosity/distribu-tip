@@ -4,8 +4,9 @@ import type { Config, Rules, Settings } from "eslint-plugin-boundaries/config";
 import { createConfig, recommended } from "eslint-plugin-boundaries/config";
 import eslintExpo from "eslint-plugin-expo";
 import reactHooks from "eslint-plugin-react-hooks";
-import { defineConfig } from "eslint/config";
+import { defineConfig, includeIgnoreFile } from "eslint/config";
 import globals from "globals";
+import { fileURLToPath, URL } from "node:url";
 import tseslint from "typescript-eslint";
 
 const boundariesConfig = createConfig({
@@ -71,7 +72,10 @@ const boundariesConfig = createConfig({
     } satisfies Rules,
 } satisfies Config);
 
+const gitIgnorePath = fileURLToPath(new URL(".gitignore", import.meta.url));
+
 export default defineConfig([
+    includeIgnoreFile(gitIgnorePath, { gitignoreResolution: true }),
     {
         plugins: { js, "@typescript-eslint": tseslint.plugin },
         languageOptions: {
