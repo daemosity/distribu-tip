@@ -15,7 +15,8 @@
         // Stricter Typechecking Options
         "noUncheckedIndexedAccess": true,
         "noImplicitOverride": true,
-        "noEmit": true
+        "noEmit": true,
+        "allowUnreachableCode": false
     },
     "include": ["src/**/*", "__tests__/**/*", "eslint.config.mts", "types/**/*"]
 }

@@ -84,6 +84,7 @@ export default defineConfig([
                 "error",
                 { argsIgnorePattern: "^_" },
             ],
+            eqeqeq: ["error", "smart"],
         },
     },
     {
@@ -104,6 +105,10 @@ export default defineConfig([
             "expo/use-dom-exports": "error",
             "expo/no-env-var-destructuring": "error",
             "expo/no-dynamic-env-var": "error",
+            "@eslint-react/no-missing-component-display-name": "error",
+            "@eslint-react/globals": "error",
+            "@eslint-react/immutability": "error",
+            "@eslint-react/refs": "error",
         },
     },
     {
