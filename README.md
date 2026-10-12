@@ -12,7 +12,7 @@ The app is a calculator and a record, not a payment system. Counting the tips, g
 
 - Node: 26
     - see ./.nvmrc for confirmation
-- Expo v57
+- Expo `57.0.27`
 - Emulators/Simulators to test on. Some options:
     - [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
     - [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
@@ -20,19 +20,106 @@ The app is a calculator and a record, not a payment system. Counting the tips, g
 
 ## Development Setup
 
-To install the library versions we're working with, as well as `husky` + `lint-staged` pre-commit hooks, which will lint and format files before they are captured in a commit:
+Install dependencies and the `husky` + `lint-staged` pre-commit hooks:
 
 ```bash
 npm ci
 ```
 
-If using WSL2, here's the development setup:
+### Running the app on an Android phone from WSL 2
 
-- Repo on Ubuntu Linux LTS
-- Mirrored WSL2 networking
-- Set Metro firewall to allow communication between wifi and phone
-- Pair Android phone by enabling developer tools, turning on wifi debugging, and pairing within WSL2 via adb pair
-    - If this doesn't work, fall back to `npx expo start --tunnel`, which is slower but should still work
+Steps 1–5 are one-time. Then see [Every session](#every-session).
+
+Requires:
+
+- Windows 11 22H2+
+- Android 11+ phone with [Expo Go](https://expo.dev/go)
+- PC and phone on the same Wi-Fi (if guest/campus Wi-Fi: use the [tunnel fallback](#fallback---tunnel))
+
+#### 1. Keep the repo in the Linux filesystem
+
+Clone under `~/` (e.g. `~/.../distribu-tip`), not `/mnt/c/`.
+
+#### 2. Turn on mirrored networking
+
+In `%UserProfile%\.wslconfig`:
+
+```ini
+[wsl2]
+networkingMode=mirrored
+```
+
+Restart WSL (PowerShell):
+
+```powershell
+wsl --shutdown
+```
+
+Check: `ip addr` in Ubuntu lists your Wi-Fi IP.
+
+#### 3. Open Metro's port in the Hyper-V firewall
+
+Admin PowerShell:
+
+```powershell
+New-NetFirewallHyperVRule -Name "Metro" -DisplayName "Metro bundler (Expo)" -Direction Inbound -VMCreatorId '{40E0AC32-46A5-438A-A0B2-2B479E8F2E90}' -Protocol TCP -LocalPorts 8081
+```
+
+Check: `Get-NetFirewallHyperVRule -Name "Metro"`. Remove: `Remove-NetFirewallHyperVRule -Name "Metro"`.
+
+#### 4. Install Android platform-tools (`adb`) in WSL
+
+```bash
+sudo apt install -y unzip
+curl -LO https://dl.google.com/android/repository/platform-tools-latest-linux.zip
+unzip platform-tools-latest-linux.zip -d ~/android-sdk
+rm platform-tools-latest-linux.zip
+echo 'export ANDROID_HOME="$HOME/android-sdk"' >> ~/.bashrc
+echo 'export PATH="$ANDROID_HOME/platform-tools:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+adb version
+```
+
+#### 5. Pair the phone over Wi-Fi
+
+1. Phone: **Settings → About phone** → tap **Build number** 7 times.
+2. **Developer options → Wireless debugging** → on → **Pair device with pairing code**.
+3. Pair with the IP:port from the pairing dialog, then enter the code:
+
+    ```bash
+    adb pair <ip>:<pairing-port>
+    ```
+
+4. Check:
+
+    ```bash
+    adb devices
+    ```
+
+    Not listed? Use the IP:port from the main **Wireless debugging** screen:
+
+    ```bash
+    adb connect <ip>:<port>
+    ```
+
+After a reboot or Wi-Fi change: turn Wireless debugging back on, re-run `adb connect` with the new port. No re-pairing.
+
+#### Every session
+
+```bash
+npx expo start
+```
+
+Scan the QR code in Expo Go, or press `a`. The URL should be `exp://<Wi-Fi IP>:8081`; if not, recheck step 2.
+
+#### Fallback: `--tunnel`
+
+Use only if LAN fails (slower, public URL):
+
+```bash
+npm i -g @expo/ngrok
+npx expo start --tunnel
+```
 
 ## Running Tests
 
