@@ -1,9 +1,12 @@
+import eslintReact from "@eslint-react/eslint-plugin";
 import js from "@eslint/js";
-import globals from "globals";
-import tseslint from "typescript-eslint";
-import { defineConfig } from "eslint/config";
 import type { Config, Rules, Settings } from "eslint-plugin-boundaries/config";
 import { createConfig, recommended } from "eslint-plugin-boundaries/config";
+import eslintExpo from "eslint-plugin-expo";
+import reactHooks from "eslint-plugin-react-hooks";
+import { defineConfig } from "eslint/config";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
 const boundariesConfig = createConfig({
     settings: {
@@ -72,11 +75,41 @@ export default defineConfig([
     {
         plugins: { js, "@typescript-eslint": tseslint.plugin },
         languageOptions: {
-            globals: globals.jest,
             parser: tseslint.parser,
         },
-        files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
+        files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
         extends: [js.configs.recommended, tseslint.configs.recommended],
+        rules: {
+            "@typescript-eslint/no-unused-vars": [
+                "error",
+                { argsIgnorePattern: "^_" },
+            ],
+            eqeqeq: ["error", "smart"],
+        },
+    },
+    {
+        basePath: "src",
+        files: ["**/*.{ts,js,tsx,jsx}"],
+        ignores: ["core/**/*"],
+        plugins: {
+            expo: eslintExpo,
+        },
+        extends: [
+            reactHooks.configs.flat.recommended,
+            eslintReact.configs["disable-conflict-eslint-plugin-react-hooks"],
+            eslintReact.configs["recommended-typescript"],
+            eslintReact.configs["disable-dom"],
+            eslintReact.configs["disable-rsc"],
+        ],
+        rules: {
+            "expo/use-dom-exports": "error",
+            "expo/no-env-var-destructuring": "error",
+            "expo/no-dynamic-env-var": "error",
+            "@eslint-react/no-missing-component-display-name": "error",
+            "@eslint-react/globals": "error",
+            "@eslint-react/immutability": "error",
+            "@eslint-react/refs": "error",
+        },
     },
     {
         basePath: "src",
@@ -88,12 +121,18 @@ export default defineConfig([
                 },
             },
         },
+    },
+    {
+        basePath: "src/core",
+        files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
         rules: {
             "no-undef": "error",
-            "@typescript-eslint/no-unused-vars": [
-                "error",
-                { argsIgnorePattern: "^_" },
-            ],
+        },
+    },
+    {
+        files: ["**/__tests__/**"],
+        languageOptions: {
+            globals: globals.jest,
         },
     },
 ]);

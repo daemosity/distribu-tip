@@ -1,0 +1,32 @@
+{
+    "expo": {
+        "name": "distribu-tip",
+        "slug": "distribu-tip",
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "scheme": "distribu-tip",
+        "userInterfaceStyle": "automatic",
+        "ios": {
+            "icon": "./assets/expo.icon"
+        },
+        "android": {
+            "adaptiveIcon": {
+                "backgroundColor": "#E6F4FE"
+            },
+            "predictiveBackGestureEnabled": false
+        },
+        "plugins": [
+            "expo-router",
+            [
+                "expo-splash-screen",
+                {
+                    "backgroundColor": "#208AEF"
+                }
+            ]
+        ],
+        "experiments": {
+            "typedRoutes": true,
+            "reactCompiler": true
+        }
+    }
+}

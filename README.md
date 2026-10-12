@@ -12,13 +12,113 @@ The app is a calculator and a record, not a payment system. Counting the tips, g
 
 - Node: 26
     - see ./.nvmrc for confirmation
+- Expo `57.0.27`
+- Emulators/Simulators to test on. Some options:
+    - [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+    - [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+    - [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-## Setup
+## Development Setup
 
-To install the library versions we're working with, as well as `husky` + `lint-staged` pre-commit hooks, which will lint and format files before they are captured in a commit:
+Install dependencies and the `husky` + `lint-staged` pre-commit hooks:
 
 ```bash
 npm ci
+```
+
+### Running the app on an Android phone from WSL 2
+
+Steps 1–5 are one-time. Then see [Every session](#every-session).
+
+Requires:
+
+- Windows 11 22H2+
+- Android 11+ phone with [Expo Go](https://expo.dev/go)
+- PC and phone on the same Wi-Fi (if guest/campus Wi-Fi: use the [tunnel fallback](#fallback---tunnel))
+
+#### 1. Keep the repo in the Linux filesystem
+
+Clone under `~/` (e.g. `~/.../distribu-tip`), not `/mnt/c/`.
+
+#### 2. Turn on mirrored networking
+
+In `%UserProfile%\.wslconfig`:
+
+```ini
+[wsl2]
+networkingMode=mirrored
+```
+
+Restart WSL (PowerShell):
+
+```powershell
+wsl --shutdown
+```
+
+Check: `ip addr` in Ubuntu lists your Wi-Fi IP.
+
+#### 3. Open Metro's port in the Hyper-V firewall
+
+Admin PowerShell:
+
+```powershell
+New-NetFirewallHyperVRule -Name "Metro" -DisplayName "Metro bundler (Expo)" -Direction Inbound -VMCreatorId '{40E0AC32-46A5-438A-A0B2-2B479E8F2E90}' -Protocol TCP -LocalPorts 8081
+```
+
+Check: `Get-NetFirewallHyperVRule -Name "Metro"`. Remove: `Remove-NetFirewallHyperVRule -Name "Metro"`.
+
+#### 4. Install Android platform-tools (`adb`) in WSL
+
+```bash
+sudo apt install -y unzip
+curl -LO https://dl.google.com/android/repository/platform-tools-latest-linux.zip
+unzip platform-tools-latest-linux.zip -d ~/android-sdk
+rm platform-tools-latest-linux.zip
+echo 'export ANDROID_HOME="$HOME/android-sdk"' >> ~/.bashrc
+echo 'export PATH="$ANDROID_HOME/platform-tools:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+adb version
+```
+
+#### 5. Pair the phone over Wi-Fi
+
+1. Phone: **Settings → About phone** → tap **Build number** 7 times.
+2. **Developer options → Wireless debugging** → on → **Pair device with pairing code**.
+3. Pair with the IP:port from the pairing dialog, then enter the code:
+
+    ```bash
+    adb pair <ip>:<pairing-port>
+    ```
+
+4. Check:
+
+    ```bash
+    adb devices
+    ```
+
+    Not listed? Use the IP:port from the main **Wireless debugging** screen:
+
+    ```bash
+    adb connect <ip>:<port>
+    ```
+
+After a reboot or Wi-Fi change: turn Wireless debugging back on, re-run `adb connect` with the new port. No re-pairing.
+
+#### Every session
+
+```bash
+npx expo start
+```
+
+Scan the QR code in Expo Go, or press `a`. The URL should be `exp://<Wi-Fi IP>:8081`; if not, recheck step 2.
+
+#### Fallback: `--tunnel`
+
+Use only if LAN fails (slower, public URL):
+
+```bash
+npm i -g @expo/ngrok
+npx expo start --tunnel
 ```
 
 ## Running Tests
@@ -38,27 +138,15 @@ This repo was started with `ts-jest` - with it, we GAIN direct access to the Typ
 
 The trade-off in choosing `ts-jest` is that it runs slower than `babel-jest`, and it is also currently locked to TypeScript 6 (see [ts-jest section](#ts-jests-unique-dependency-configuration)), which means it doesn't have access to TypeScript 7's improvements.
 
-Note: As this application will eventually use `Expo`, `ts-jest` will need to be swapped out for `jest-expo`, which runs on Babel - and losing the paired "test-and-typecheck" benefits. However, in the early stages of this project, when we're working on pure domain logic, using `ts-jest` seems worth the later migration.
+Note: As this application uses `Expo`, `ts-jest` may need to be swapped out for `jest-expo`, which runs on Babel - and losing the paired "test-and-typecheck" benefits. However, in the early stages of this project, when we're working on pure domain logic, using `ts-jest` seems worth the later migration.
 
 #### ts-jest's unique dependency configuration
 
 This package has two TypeScript versions installed side by side, a necessity for running ts-jest v29 alongside TypeScript 7.
 
-[From ts-jest's documentation](https://kulshekhar.github.io/ts-jest/docs/next/guides/typescript-7):
+`ts-jest` notes that [Typescript 7.0 doesn't ship with the Javascript Compiler API `ts-jest` needs for its tooling](https://kulshekhar.github.io/ts-jest/docs/next/guides/typescript-7). This is also why both Expo 57 and 58 don't bundle with TypeScript 7 - they're waiting on a public API as well. Taking up `ts-jest`'s suggestion to install TypeScript 7 under an alias, this project includes it under `@typescript/native`, and calls its `tsc` directly in its package's `npm run typecheck` script.
 
-> TypeScript 7.0 ships a native tsc, but it does not ship the JavaScript compiler API that ts-jest needs for transforms, language-service diagnostics, source maps, hoisting, and custom AST transformers. Microsoft provides @typescript/typescript6 for tools that still need that API and recommends installing it alongside TypeScript 7 with npm aliases.
-
-They suggest the following workaround:
-
-```bash
-npm install --save-dev '@typescript/native@npm:typescript@^7.0.2' 'typescript@npm:@typescript/typescript6@^6.0.2'
-```
-
-Using this set-up, they say:
-
-> - `npx tsc` runs the native TypeScript 7 compiler for project type-checking and builds.
-> - `npx tsc6` runs the TypeScript 6 compatibility compiler when you need to compare results.
-> - `ts-jest` imports `typescript`, so it receives the supported TypeScript 6 JavaScript API.
+This allows TS7's blazingly fast typecheck during development and CI while still providing TypeScript 6 so this repo's other libraries can still operate with TypeScript support.
 
 ## Architectural Decisions
 
