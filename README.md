@@ -26,6 +26,14 @@ To install the library versions we're working with, as well as `husky` + `lint-s
 npm ci
 ```
 
+If using WSL2, here's the development setup:
+
+- Repo on Ubuntu Linux LTS
+- Mirrored WSL2 networking
+- Set Metro firewall to allow communication between wifi and phone
+- Pair Android phone by enabling developer tools, turning on wifi debugging, and pairing within WSL2 via adb pair
+    - If this doesn't work, fall back to `npx expo start --tunnel`, which is slower but should still work
+
 ## Running Tests
 
 ```bash
