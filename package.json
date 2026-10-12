@@ -63,5 +63,9 @@
             "prettier --write"
         ],
         "!(*.{js,mjs,cjs,ts,mts,cts})": "prettier --write --ignore-unknown"
+    },
+    "allowScripts": {
+        "@parcel/watcher": false,
+        "unrs-resolver": false
     }
 }
