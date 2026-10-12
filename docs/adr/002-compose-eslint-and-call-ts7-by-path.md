@@ -27,7 +27,7 @@ The alternatives I considered:
 
 The repo installs two TypeScript packages side by side:
 
-- `typescript` is an npm alias for `@typescript/typescript6`. Tools that need TypeScript's JavaScript API load it: `ts-jest` (`typescript <7`) and `typescript-eslint` (`<6.1.0`). TypeScript 7 doesn't ship that API yet, and an [Expo maintainer recommends this setup](https://github.com/expo/expo/issues/47627#issuecomment-4927062552) until it does.
+- `typescript` is set to `~6.0.3`. Tools that need TypeScript's JavaScript API load it: `ts-jest` (`typescript <7`) and `typescript-eslint` (`<6.1.0`). TypeScript 7 doesn't ship that API yet, and an [Expo maintainer recommends this setup](https://github.com/expo/expo/issues/47627#issuecomment-4927062552) until it does.
 - `@typescript/native` is an alias for `typescript@7`, the compiler CI uses as the type gate.
 
 Both packages declare a `tsc` command, and only one can be linked into `node_modules/.bin`. During the spike, which one won seemed to depend on install order (spike, Q7; I didn't isolate the exact rule). So a plain `tsc` in `npm run typecheck`, CI's type gate, might usually run TypeScript 7, but not reliably. The README's ts-jest section quotes ts-jest's docs saying `npx tsc` runs TypeScript 7. On this repo, that's only true when npm happens to link it that way.
