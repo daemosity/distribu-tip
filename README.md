@@ -57,21 +57,9 @@ Note: As this application will eventually use `Expo`, `ts-jest` will need to be 
 
 This package has two TypeScript versions installed side by side, a necessity for running ts-jest v29 alongside TypeScript 7.
 
-[From ts-jest's documentation](https://kulshekhar.github.io/ts-jest/docs/next/guides/typescript-7):
+`ts-jest` notes that [Typescript 7.0 doesn't ship with the Javascript Compiler API `ts-jest` needs for its tooling](https://kulshekhar.github.io/ts-jest/docs/next/guides/typescript-7). This is also why both Expo 57 and 58 don't bundle with TypeScript 7 - they're waiting on a public API as well. Taking up `ts-jest`'s suggestion to install Typsecript 7 under an alias, this project includes it under `@typescript/native`, and calls its `tsc` directly in its package's `npm run typecheck` script.
 
-> TypeScript 7.0 ships a native tsc, but it does not ship the JavaScript compiler API that ts-jest needs for transforms, language-service diagnostics, source maps, hoisting, and custom AST transformers. Microsoft provides @typescript/typescript6 for tools that still need that API and recommends installing it alongside TypeScript 7 with npm aliases.
-
-They suggest the following workaround:
-
-```bash
-npm install --save-dev '@typescript/native@npm:typescript@^7.0.2' 'typescript@npm:@typescript/typescript6@^6.0.2'
-```
-
-Using this set-up, they say:
-
-> - `npx tsc` runs the native TypeScript 7 compiler for project type-checking and builds.
-> - `npx tsc6` runs the TypeScript 6 compatibility compiler when you need to compare results.
-> - `ts-jest` imports `typescript`, so it receives the supported TypeScript 6 JavaScript API.
+This allows TS7's blazingly fast typecheck during development and CI while still providing TypeScript 6 so this repo's other librarys can still operate with TypeScript support.
 
 ## Architectural Decisions
 
