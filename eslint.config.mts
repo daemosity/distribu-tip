@@ -130,7 +130,7 @@ export default defineConfig([
         },
     },
     {
-        files: ["**/__test__/**"],
+        files: ["**/__tests__/**"],
         languageOptions: {
             globals: globals.jest,
         },
