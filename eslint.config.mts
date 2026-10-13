@@ -4,6 +4,7 @@ import type { Config, Rules, Settings } from "eslint-plugin-boundaries/config";
 import { createConfig, recommended } from "eslint-plugin-boundaries/config";
 import eslintExpo from "eslint-plugin-expo";
 import reactHooks from "eslint-plugin-react-hooks";
+import testingLibrary from "eslint-plugin-testing-library";
 import { defineConfig, includeIgnoreFile } from "eslint/config";
 import globals from "globals";
 import { fileURLToPath, URL } from "node:url";
@@ -116,6 +117,16 @@ export default defineConfig([
         },
     },
     {
+        // react-native-testing-library files only
+        basePath: "src",
+        files: [
+            "**/__tests__/**/*.[jt]s?(x)",
+            "**/*.{test,spec}?(.{native,ios,android}).[jt]s?(x)",
+        ],
+        ignores: ["core/**/*"],
+        extends: [testingLibrary.configs["flat/react"]],
+    },
+    {
         basePath: "src",
         extends: [boundariesConfig],
         settings: {
@@ -137,6 +148,12 @@ export default defineConfig([
         files: ["**/__tests__/**"],
         languageOptions: {
             globals: globals.jest,
+        },
+    },
+    {
+        files: ["babel.config.js"],
+        languageOptions: {
+            sourceType: "commonjs",
         },
     },
 ]);
