@@ -130,6 +130,8 @@ npm run typecheck # check for type errors
 
 **Note:** Tests currently only pass with `npm test`
 
+- `jest` now tests by project type - `core`, `non-app`, `app-unspecified`, `app-ios`, and `app-android`. `core` and `non-app` are set to use ts-jest, while all app related tests now use `jest-expo`'s babel presets.
+
 - `npx jest` fails because loading `eslint.config.mts` needs `NODE_OPTIONS=--experimental-vm-modules`.
 
 ### Note on ts-jest
