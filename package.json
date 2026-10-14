@@ -62,11 +62,11 @@
         "typescript-eslint": "^8.70.1"
     },
     "lint-staged": {
-        "*.{js,mjs,cjs,ts,mts,cts}": [
+        "*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}": [
             "eslint --fix",
             "prettier --write"
         ],
-        "!(*.{js,mjs,cjs,ts,mts,cts})": "prettier --write --ignore-unknown"
+        "!(*.{js,mjs,cjs,ts,mts,cts,jsx,tsx})": "prettier --write --ignore-unknown"
     },
     "allowScripts": {
         "@parcel/watcher": false,
