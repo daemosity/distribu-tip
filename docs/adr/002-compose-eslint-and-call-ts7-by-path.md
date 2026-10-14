@@ -2,7 +2,9 @@
 
 ## Status
 
-Proposed, 2026-10-11. Originally recommended in the M3-1 spike ([`docs/spikes/expo-toolchain.md`](../spikes/expo-toolchain.md), Recommendation items 3 and 4, revised 2026-10-11) and built on the `scaffold-expo-app` branch for [M3-2 (#24)](https://github.com/daemosity/distribu-tip/issues/24).
+Accepted, 2026-10-12 (on merge of #45). Originally recommended in the M3-1 spike ([`docs/spikes/expo-toolchain.md`](../spikes/expo-toolchain.md), Recommendation items 3 and 4, revised 2026-10-11) and built on the `scaffold-expo-app` branch for [M3-2 (#24)](https://github.com/daemosity/distribu-tip/issues/24).
+
+(Originally Proposed 2026-10-11)
 
 ## Context
 
