@@ -124,11 +124,17 @@ npx expo start --tunnel
 ## Running Tests
 
 ```bash
-npm test # Run the test suite
+npm test # Run the full test suite
+npm test -- --selectProjects core # run core tests only
+npm test -- --selectProjects tooling # run tests of tooling only
+npm test -- --selectProjects app-ios # run ios tests only
+npm test -- --selectProjects app-android # run android tests only
 npm run typecheck # check for type errors
 ```
 
 **Note:** Tests currently only pass with `npm test`
+
+- `jest` now tests by project type - `core`, `tooling`, `app-ios`, and `app-android`. `core` and `tooling` are set to use ts-jest, while all app related tests now use `jest-expo`'s babel presets.
 
 - `npx jest` fails because loading `eslint.config.mts` needs `NODE_OPTIONS=--experimental-vm-modules`.
 
@@ -138,7 +144,7 @@ This repo was started with `ts-jest` - with it, we GAIN direct access to the Typ
 
 The trade-off in choosing `ts-jest` is that it runs slower than `babel-jest`, and it is also currently locked to TypeScript 6 (see [ts-jest section](#ts-jests-unique-dependency-configuration)), which means it doesn't have access to TypeScript 7's improvements.
 
-Note: As this application uses `Expo`, `ts-jest` may need to be swapped out for `jest-expo`, which runs on Babel - and losing the paired "test-and-typecheck" benefits. However, in the early stages of this project, when we're working on pure domain logic, using `ts-jest` seems worth the later migration.
+Note: As this application uses `Expo`, `ts-jest` is now used for core and tooling, while the app code runs on Babel via `jest-expo`. This loses the paired "test-and-typecheck" benefits for app code, but `npm run typecheck` is required to pass before any PR merge -- it uses `tsc` from TypeScript 7, and can also be run locally before every commit.
 
 #### ts-jest's unique dependency configuration
 
