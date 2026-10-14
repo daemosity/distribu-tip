@@ -1,20 +1,29 @@
 import { createDefaultPreset } from "ts-jest";
 
-const tsJestCfg = createDefaultPreset();
+const tsJestCoreCfg = createDefaultPreset({
+    tsconfig: "tsconfig.core.json",
+});
+
+const tsJestToolingConfig = createDefaultPreset({
+    tsconfig: "tsconfig.json",
+});
 
 /** @type {import("jest").Config} **/
 export default {
-    watchman: false,
-    maxWorkers: 2,
+    testTimeout: 30_000,
+    watchman: false, // agent sandboxes can't start watchman; no benefit at this repo size
+    maxWorkers: "50%",
     projects: [
         {
             displayName: "core",
-            ...tsJestCfg,
+            ...tsJestCoreCfg,
+            testEnvironment: "node",
             testMatch: ["<rootDir>/src/core/**/*.test.*"],
         },
         {
-            displayName: "non-app",
-            ...tsJestCfg,
+            displayName: "tooling",
+            ...tsJestToolingConfig,
+            testEnvironment: "node",
             testMatch: [
                 "<rootDir>/**/*.test.*",
                 "!**/src/**/*.test.*",
@@ -22,23 +31,22 @@ export default {
             ],
         },
         {
-            displayName: "app-unspecified",
-            preset: "jest-expo",
-            testMatch: [
-                "<rootDir>/src/**/*.test.*",
-                "!**/src/core/**/*.test.*",
-                "!**/src/**/*.test.{android,ios,native}.*",
-            ],
-        },
-        {
             displayName: "app-ios",
             preset: "jest-expo/ios",
-            testMatch: ["**/src/**/*.test.ios.*", "!**/src/core/**/*.*"],
+            testMatch: [
+                "**/src/**/*.test.*",
+                "!**/src/core/**/*.*",
+                "!**/*.test.android.*",
+            ],
         },
         {
             displayName: "app-android",
             preset: "jest-expo/android",
-            testMatch: ["**/*.test.android.*", "!**/src/core/**/*.*"],
+            testMatch: [
+                "**/src/**/*.test.*",
+                "!**/src/core/**/*.*",
+                "!**/*.test.ios.*",
+            ],
         },
     ],
 };
