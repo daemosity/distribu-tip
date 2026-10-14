@@ -5,6 +5,7 @@
         "types": []
     },
     "include": ["src/core/**/*"],
-    // tests need Jest's types
+    // Tests are excluded: @jest/globals references Node types, and global
+    // types would apply to every file in core.
     "exclude": ["src/core/**/__tests__/**"]
 }
