@@ -30,4 +30,4 @@ Smaller choices belong in a pull request description or a code comment. Changes 
 | ADR                                                 | Title                                                   | Status   | Date                                      |
 | --------------------------------------------------- | ------------------------------------------------------- | -------- | ----------------------------------------- |
 | [001](001-allocation-rule-behind-one-function.md)   | The allocation rule sits behind one function            | Accepted | 2026-10-06, originally decided 2026-09-26 |
-| [002](./002-compose-eslint-and-call-ts7-by-path.md) | Compose the ESLint config and call TypeScript 7 by path | Proposed | 2026-10-11                                |
+| [002](./002-compose-eslint-and-call-ts7-by-path.md) | Compose the ESLint config and call TypeScript 7 by path | Accepted | 2026-10-12 (on merge of #45)              |
