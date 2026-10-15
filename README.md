@@ -125,10 +125,10 @@ npx expo start --tunnel
 
 ```bash
 npm test # Run the full test suite
-npm test:app -- --selectProjects core # run core tests only
-npm test:tooling # run tests of tooling only
-npm test:app -- --selectProjects app-ios # run ios tests only
-npm test:app -- --selectProjects app-android # run android tests only
+npm run test:app -- --selectProjects core # run core tests only
+npm run test:tooling # run tests of tooling only
+npm run test:app -- --selectProjects app-ios # run ios tests only
+npm run test:app -- --selectProjects app-android # run android tests only
 npm run typecheck # check for type errors
 ```
 
