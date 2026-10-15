@@ -11,7 +11,7 @@
         "start": "expo start",
         "test:tooling": "NODE_OPTIONS=--experimental-vm-modules jest --selectProjects tooling",
         "test:app": "jest --ignoreProjects tooling",
-        "test": "npm run test:tooling && npm run test:app",
+        "test": "npm run test:tooling; npm run test:app",
         "typecheck": "node node_modules/@typescript/native/bin/tsc --version && node node_modules/@typescript/native/bin/tsc -p tsconfig.json --noEmit && node node_modules/@typescript/native/bin/tsc -p tsconfig.core.json --noEmit",
         "lint": "eslint .",
         "android": "expo start --android",
