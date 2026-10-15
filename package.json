@@ -9,7 +9,9 @@
     "type": "commonjs",
     "scripts": {
         "start": "expo start",
-        "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+        "test:tooling": "NODE_OPTIONS=--experimental-vm-modules jest --selectProjects tooling",
+        "test:app": "jest --ignoreProjects tooling",
+        "test": "npm run test:tooling; tooling=$?; npm run test:app && exit $tooling",
         "typecheck": "node node_modules/@typescript/native/bin/tsc --version && node node_modules/@typescript/native/bin/tsc -p tsconfig.json --noEmit && node node_modules/@typescript/native/bin/tsc -p tsconfig.core.json --noEmit",
         "lint": "eslint .",
         "android": "expo start --android",
