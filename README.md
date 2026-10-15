@@ -132,7 +132,7 @@ npm run test:app -- --selectProjects app-android # run android tests only
 npm run typecheck # check for type errors
 ```
 
-**Note:** Tests currently only pass with the above commands.
+**Note:** Any jest run with the flag that skips the `tooling` project passes.
 
 - `jest` now tests by project type - `core`, `tooling`, `app-ios`, and `app-android`. `core` and `tooling` are set to use ts-jest, while all app related tests now use `jest-expo`'s babel presets.
 
@@ -145,12 +145,16 @@ Test suite failed to run: Must use import to load ES Module: …/standard-naviga
 Since the kids won't get along, I've separated them into two different npm scripts:
 
 - `npm run test:tooling`, which runs the tooling project with its much needed node environment
-- `npm run test:app`, which runs all app related projects via `npx jest --ignoreProjects tooling` -- essentially ignoring the project that won't get along with the others.
+- `npm run test:app`, which runs everything except the `tooling` project (via `jest --ignoreProjects tooling` -- essentially ignoring the project that won't get along with the others).
 - `npm test` still gets to run the full test suite running `test:tooling` first, then `test:app` afterward, so it gets to stay happy, too.
+
 - **When to revisit:**
-    - When Jest ESM support stops being experimental
-    - When ESLint loads TS configs without a dynamic import
-    - When the boundary test moves to a child process
+
+| Undo it when                                                           | What to Check                                                                                                                                                                                                                                                                                                                                                                                                                | When to Check                                                                                                                                                                                                                                             | Verification Test                                                                                                                               |
+| ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| Jest ESM support stops being experimental                              | The [Jest ECMAScript Modules docs page](https://jestjs.io/docs/ecmascript-modules) drops the "experimental" banner and no longer tells us to run with `--experimental-vm-modules`. Jest depends on [Node's `vm.SourceTextModule`](https://nodejs.org/api/vm.html#class-vmsourcetextmodule) here, so also look for that API being marked stable in a (Node changelog)[https://github.com/nodejs/node/blob/main/CHANGELOG.md]. | When upgrading Jest. I have `jest ~29.7.0` pinned right now, and `jest-expo` ties the Jest major to the Expo SDK, so this likely means each Expo SDK upgrade. Also check on each Node major upgrade (currently on 26).                                    | Remove `NODE_OPTIONS=...` from `test:tooling` and run it.                                                                                       |
+| ESLint loads TS configs without a dynamic import                       | ESLint's release notes mention a change to how config files are loaded (look for "config loading", `jiti`, or "native TypeScript").                                                                                                                                                                                                                                                                                          | When ESLint updates. I've pinned `^10.11.0`, so minor versions come in on any `npm update`                                                                                                                                                                | When running the test suite without the flag, the error that `new ESLint({ cwd: ROOT })` throws in `__tests__/core-boundary.test.ts` goes away. |
+| The boundary test moves to a child process (this is in my control now) | `core-boundary.test.ts` no longer imports ESLint from "eslint" and runs it as a subprocess instead (e.g. `spawnSync` of `eslint --stdin --stdin-filename src/core/probe.ts --format json`) and parses the JSON output.                                                                                                                                                                                                       | Whenever I decide to, really. Some things I might pay attention to: if the two-script setup causes friction via running `npx jest` I get confused about the failure or if the CI duplicates work; if I add a second tooling test that also needs the flag | `test:tooling` works without the flag                                                                                                           |
 
 ### Note on ts-jest
 
