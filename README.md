@@ -125,18 +125,32 @@ npx expo start --tunnel
 
 ```bash
 npm test # Run the full test suite
-npm test -- --selectProjects core # run core tests only
-npm test -- --selectProjects tooling # run tests of tooling only
-npm test -- --selectProjects app-ios # run ios tests only
-npm test -- --selectProjects app-android # run android tests only
+npm test:app -- --selectProjects core # run core tests only
+npm test:tooling # run tests of tooling only
+npm test:app -- --selectProjects app-ios # run ios tests only
+npm test:app -- --selectProjects app-android # run android tests only
 npm run typecheck # check for type errors
 ```
 
-**Note:** Tests currently only pass with `npm test`
+**Note:** Tests currently only pass with the above commands.
 
 - `jest` now tests by project type - `core`, `tooling`, `app-ios`, and `app-android`. `core` and `tooling` are set to use ts-jest, while all app related tests now use `jest-expo`'s babel presets.
 
-- `npx jest` fails because loading `eslint.config.mts` needs `NODE_OPTIONS=--experimental-vm-modules`.
+- `npx jest` by itself fails because running `__tests__/core-boundary.test.ts` requires `NODE_OPTIONS=--experimental-vm-modules`. to run. However, running jest with a global `NODE_OPTIONS=--experimental-vm-modules` causes tests using expo's `renderRouter` to fail with the following output when working with actual routes:
+
+```text
+Test suite failed to run: Must use import to load ES Module: …/standard-navigation/lib/src/index.js
+```
+
+Since the kids won't get along, I've separated them into two different npm scripts:
+
+- `npm run test:tooling`, which runs the tooling project with its much needed node environment
+- `npm run test:app`, which runs all app related projects via `npx jest --ignoreProjects tooling` -- essentially ignoring the project that won't get along with the others.
+- `npm test` still gets to run the full test suite running `test:tooling` first, then `test:app` afterward, so it gets to stay happy, too.
+- **When to revisit:**
+    - When Jest ESM support stops being experimental
+    - When ESLint loads TS configs without a dynamic import
+    - When the boundary test moves to a child process
 
 ### Note on ts-jest
 
