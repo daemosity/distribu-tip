@@ -136,7 +136,7 @@ npm run typecheck # check for type errors
 
 - `jest` now tests by project type - `core`, `tooling`, `app-ios`, and `app-android`. `core` and `tooling` are set to use ts-jest, while all app related tests now use `jest-expo`'s babel presets.
 
-- `npx jest` by itself fails because running `__tests__/core-boundary.test.ts` requires `NODE_OPTIONS=--experimental-vm-modules`. to run. However, running jest with a global `NODE_OPTIONS=--experimental-vm-modules` causes tests using expo's `renderRouter` to fail with the following output when working with actual routes:
+- `npx jest` by itself fails because running `__tests__/core-boundary.test.ts` requires `NODE_OPTIONS=--experimental-vm-modules` to run. However, running jest with a global `NODE_OPTIONS=--experimental-vm-modules` causes tests using expo's `renderRouter` to fail with the following output when working with actual routes:
 
 ```text
 Test suite failed to run: Must use import to load ES Module: …/standard-navigation/lib/src/index.js
