@@ -1,13 +1,13 @@
-import { useRouter } from "expo-router";
-import { Button, StyleSheet, Text, View } from "react-native";
+import type { AllocationInput } from "@/core";
 import {
     allocate,
-    AllocationInput,
     formatCents,
     validateCents,
     validateHoursCenti,
     validateWeightBp,
-} from "../core";
+} from "@/core";
+import { useRouter } from "expo-router";
+import { Button, StyleSheet, Text, View } from "react-native";
 
 const allocationInput: AllocationInput = {
     poolCents: validateCents(10_000),
@@ -28,6 +28,11 @@ const allocationInput: AllocationInput = {
 
 export default function Index() {
     const router = useRouter();
+
+    const payoutRows = allocate(allocationInput).payouts.map((worker) => ({
+        id: worker.id,
+        amountCents: formatCents(worker.amountCents),
+    }));
     return (
         <View style={styles.container}>
             <Text>Edit src/app/index.tsx to edit this screen.</Text>
@@ -47,15 +52,15 @@ export default function Index() {
                 title="Go to distribution 1 handoff screen"
                 onPress={() => router.navigate("/distribution/1/handoff")}
             />
-            {allocate(allocationInput).payouts.map(({ id, amountCents }) => (
+            {payoutRows.map(({ id, amountCents }) => (
                 <View
                     key={id}
                     accessible
                     accessibilityRole="text"
-                    accessibilityLabel={`${id}, ${formatCents(amountCents)}`}
+                    accessibilityLabel={`${id}, ${amountCents}`}
                 >
                     <Text>{id}</Text>
-                    <Text>{formatCents(amountCents)}</Text>
+                    <Text>{amountCents}</Text>
                 </View>
             ))}
         </View>
