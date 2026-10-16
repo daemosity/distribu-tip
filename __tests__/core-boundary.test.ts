@@ -1,7 +1,7 @@
+import { afterAll, beforeAll, describe, expect, it } from "@jest/globals";
+import { ESLint, Linter } from "eslint";
 import fs from "node:fs";
 import path from "node:path";
-import { ESLint, Linter } from "eslint";
-import { beforeAll, afterAll, describe, it, expect } from "@jest/globals";
 
 // Contract tested: code in src/core may import only files and folders inside
 // src/core, and may not use environment globals (window, document, process...).
@@ -27,7 +27,7 @@ const APP_PROBE_PATH = "src/app/probe.ts";
 const FIXTURES: Record<string, string> = {
     "src/otherThing.ts": "export const x = 1;\n",
     "src/app/thing.ts": "export default 1;\nexport const x = 1;\n",
-    "src/core/money.ts": "export const x = 1;\n",
+    "src/core/__boundary_fixture__.ts": "export const x = 1;\n",
     "src/core/sub/util.ts": "export const x = 1;\n",
     "src/core/probe.ts": "export {};\n",
     "src/app/probe.ts": "export {};\n",
@@ -154,16 +154,16 @@ const coreForbiddenGlobals: Probe[] = [
 
 const coreAllowed: Probe[] = [
     [
-        "sibling file inside core (./money)",
-        `import { x } from "./money";\nexport const y = x;\n`,
+        "sibling file inside core (./__boundary_fixture__)",
+        `import { x } from "./__boundary_fixture__";\nexport const y = x;\n`,
     ],
     [
         "nested folder inside core (./sub/util)",
         `import { x } from "./sub/util";\nexport const y = x;\n`,
     ],
     [
-        "path alias into core (@/core/money)",
-        `import { x } from "@/core/money";\nexport const y = x;\n`,
+        "path alias into core (@/core/__boundary_fixture__)",
+        `import { x } from "@/core/__boundary_fixture__";\nexport const y = x;\n`,
     ],
     ["ECMAScript built-ins (Math)", `export const y = Math.max(1, 2);\n`],
 ];
@@ -204,10 +204,13 @@ const appForbiddenImports: Probe[] = [
         "a type-only deep import from inside core",
         `import type { BillCounts } from "../core/types";\nexport const bills: BillCounts = {20: 0, 10: 0, 5: 0, 1: 0};\n`,
     ],
-    ["re-export from inside core", `export * from "../core/money";\n`],
     [
-        "relative import from non-index file inside core (../core/money)",
-        `import { x } from "../core/money";\nexport const y = x;\n`,
+        "re-export from inside core",
+        `export * from "../core/__boundary_fixture__";\n`,
+    ],
+    [
+        "relative import from non-index file inside core (../core/__boundary_fixture__)",
+        `import { x } from "../core/__boundary_fixture__";\nexport const y = x;\n`,
     ],
     [
         "nested folder inside core (src/core/sub/util)",
@@ -218,8 +221,8 @@ const appForbiddenImports: Probe[] = [
         `import { x } from "@/core/sub/util";\nexport const y = x;\n`,
     ],
     [
-        "path alias into core (@/core/money)",
-        `import { x } from "@/core/money";\nexport const y = x;\n`,
+        "path alias into core (@/core/__boundary_fixture__)",
+        `import { x } from "@/core/__boundary_fixture__";\nexport const y = x;\n`,
     ],
 ];
 
