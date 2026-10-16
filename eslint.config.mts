@@ -42,10 +42,7 @@ const boundariesConfig = createConfig({
                                 fileInternalPath: "__tests__/*",
                             },
                         },
-                        allow: [
-                            { from: { type: "coreFolders" } },
-                            { dependency: { source: "@jest/globals" } },
-                        ],
+                        allow: { dependency: { source: "@jest/globals" } },
                     },
                     {
                         from: { element: { type: "appFolders" } },
