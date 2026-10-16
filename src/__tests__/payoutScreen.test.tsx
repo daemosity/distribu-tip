@@ -1,8 +1,8 @@
 import { describe, expect, it } from "@jest/globals";
 import { renderRouter, screen } from "expo-router/testing-library";
 
-describe("router smoke test", () => {
-    it("renders a real route", async () => {
+describe("payoutScreen", () => {
+    it("displays worker names and payouts in a way accessible to screen readers", async () => {
         await renderRouter("src/app", { initialUrl: "/" });
 
         expect(
