@@ -28,7 +28,8 @@
                     "backgroundColor": "#208AEF",
                     "imageWidth": 76
                 }
-            ]
+            ],
+            "expo-status-bar"
         ],
         "experiments": {
             "typedRoutes": true,
