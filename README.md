@@ -37,7 +37,7 @@ Requires:
     - Until Expo Go 58 reaches Google Play, side-load it once `adb` is connected (step 5):
         ```bash
         npx expo-go download android 58
-        adb install Expo-Go-58.0.4.apk
+        adb install Expo-Go-58.*.apk
         ```
         If that fails with `INSTALL_FAILED_UPDATE_INCOMPATIBLE`, run `adb uninstall host.exp.exponent` and install again. Once Play ships 58 there's nothing to undo; Play won't replace it with an older build.
 - PC and phone on the same Wi-Fi (if guest/campus Wi-Fi: use the [tunnel fallback](#fallback---tunnel))
